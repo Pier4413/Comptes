@@ -22,7 +22,7 @@ class Budget(object):
             :raise: Une exception si la table ne peut pas etre creee
         """
         if(self.__conn != None):
-            result = self.__conn.execute('''CREATE TABLE budgets
+            self.__conn.execute('''CREATE TABLE budgets
                 (id INTEGER NOT NULL, 
                 libelle TEXT, 
                 initial REAL, 
@@ -30,11 +30,8 @@ class Budget(object):
                 depense REAL,
                 CONSTRAINT pk_budget PRIMARY KEY (id));''')
 
-            if(result.rowcount == 0):
-                self.__conn.commit()
-                return 0
-            else:
-                raise Exception("Table budget non cree")
+            self.__conn.commit()
+            return 0
         else:
             return -1
 
@@ -53,7 +50,7 @@ class Budget(object):
                 libelle,
                 initial,
                 courant,
-                depense) VALUES(?,0,0,0)''', (budget.libelle))
+                depense) VALUES(\"'''+str(budget.libelle)+'''\",0,0,0)''')
 
             if(result.rowcount > 0):
                 self.__conn.commit()
@@ -75,15 +72,17 @@ class Budget(object):
             :raise: Une exception si la mise a jour n'a pas pu se faire
         """
         if(self.__conn != None):
-            result = self.__conn.execute('''UPDATE budgets
-                SET libelle=?,init=?,courant=?,depense=? WHERE id=?
-            ''', (budget.libelle, budget.init, budget.courant, budget.depense, budget.id))
 
-            if(result.rowcount > 0):
-                self.__conn.commit()
-                return budget
+            if(budget.id > 0):
+                result = self.__conn.execute('''UPDATE budgets SET libelle='''+str(budget.libelle)+''',initial='''+str(budget.init)+''',courant='''+str(budget.courant)+''',depense='''+str(budget.depense)+''' WHERE id='''+str(budget.id))
+
+                if(result.rowcount > 0):
+                    self.__conn.commit()
+                    return budget
+                else:
+                    raise Exception("Budget non mis a jour, id : "+budget.id)
             else:
-                raise Exception("Budget non mis a jour, id : "+budget.id)
+                raise Exception("Could not update a non existent data")
         else:
             return None
 
@@ -119,7 +118,7 @@ class Budget(object):
             :raise: Une exception si la suppression echoue
         """
         if(self.__conn != None):
-            result = self.__conn.execute('''DELETE FROM budget WHERE id=?''', (budget.id))
+            result = self.__conn.execute('''DELETE FROM budgets WHERE id='''+str(budget.id))
 
             if(result.rowcount > 0):
                 self.__conn.commit()

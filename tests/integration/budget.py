@@ -23,10 +23,10 @@ if __name__ == "__main__":
 
     try:
         budget = budgetSql.save(budget)
-    except Exception:
-        print("Could not make the insertion")
+    except Exception as e:
+        print("Could not make the insertion"+ str(e))
     else:
-        print("Insert ok : "+budget)
+        print("Insert ok : "+str(budget))
 
     # Test de mise a jour dans la table
     budget.init = 10
@@ -35,16 +35,16 @@ if __name__ == "__main__":
 
     try:
         budget = budgetSql.modify(budget)
-    except Exception:
-        print("Could not update in the database")
+    except Exception as e:
+        print("Could not update in the database"+str(e))
     else:
-        print("Update ok : "+budget)
+        print("Update ok : "+str(budget))
 
     # Test de recuperation dans la base de donnees
     budgets = budgetSql.selectAll()
 
     for b in budgets:
-        print("Retrieved : "+b)
+        print("Retrieved : "+str(b))
 
     # Test de suppression de la base de donnees
     try:

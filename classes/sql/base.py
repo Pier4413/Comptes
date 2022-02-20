@@ -42,21 +42,16 @@ class Base(object):
     #def __del__(self) -> None:
     #    self.conn.close()
 
-    def execute(self, query : str, params : list = None) -> sqlite3.Cursor:
+    def execute(self, query : str) -> sqlite3.Cursor:
         """
             Cette methode cree les tables
 
             :param query: La requete a executee
             :type query: str
-            :param params: Les parametres de la requete
-            :type params: list
             :return: Le resultat de la requete
             :rtype: sqlite3.Cursor
         """
-        if(params != None):
-            return self.cur.execute(query, params)
-        else:
-            return self.cur.execute(query)
+        return self.cur.execute(query)
 
     def commit(self) -> None:
         self.conn.commit()
