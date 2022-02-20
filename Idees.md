@@ -1,7 +1,5 @@
 # Idees de l'application
 
-
-
 ## Comptes
 
 - Multi-comptes
