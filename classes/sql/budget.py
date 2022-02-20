@@ -19,7 +19,6 @@ class Budget(object):
 
             :return: Un code de retour 0 : OK
             :rtype: int
-            :raise: Une exception si la table ne peut pas etre creee
         """
         if(self.__conn != None):
             self.__conn.execute('''CREATE TABLE budgets

@@ -39,8 +39,8 @@ class Base(object):
             except:
                 Base.__instance = None
 
-    #def __del__(self) -> None:
-    #    self.conn.close()
+    def __del__(self) -> None:
+        self.conn.close()
 
     def execute(self, query : str) -> sqlite3.Cursor:
         """

@@ -7,7 +7,7 @@ class Operation(object):
         :version: 1.0
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", montant : float = 0, date : int = 0, estValide : bool = False, estVerrouille : bool = False) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", montant : float = 0, date : int = 0, estValide : bool = False, estVerrouille : bool = False, compte : int = -1, budget : int = -1) -> None:
         """
             Constructeur
 
@@ -23,6 +23,10 @@ class Operation(object):
             :type estValide: bool
             :param estVerrouille: Optional; Default : False; Si l'operation a ete verrouille par l'utilisateur (i.e ne peut plus etre modifiee)
             :type estVerrouille:
+            :param operation: Optional; Default : -1; Identifiant de l'operation associe dans la base de donnees
+            :type operation: int
+            :param budget: Optional; Default : -1; Identifiant de l'operation associe dans la base de donnees
+            :type budget: int
         """
         self.id = id
         self.libelle = libelle
@@ -30,6 +34,8 @@ class Operation(object):
         self.date = date
         self.estValide = estValide
         self.estVerrouille = estVerrouille
+        self.compte = compte
+        self.budget = budget
 
     def __str__(self) -> str:
         """
