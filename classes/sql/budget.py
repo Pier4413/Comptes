@@ -11,55 +11,120 @@ class Budget(object):
     """
 
     def __init__(self) -> None:
-        self.conn = Base.getInstance()
+        self.__conn = Base.getInstance()
 
     def createTable(self) -> int:
         """
             Cette methode cree la table des budgets dans la base de donnees
-        """
-        return self.conn.execute('''CREATE TABLE budgets
-            (id INTEGER NOT NULL, 
-            libelle TEXT, 
-            initial REAL, 
-            courant REAL, 
-            depense REAL,
-            CONSTRAINT pk_budget PRIMARY KEY (id));''')
 
-    def save(self, budget : Modele):
+            :return: Un code de retour 0 : OK
+            :rtype: int
+            :raise: Une exception si la table ne peut pas etre creee
+        """
+        if(self.__conn != None):
+            result = self.__conn.execute('''CREATE TABLE budgets
+                (id INTEGER NOT NULL, 
+                libelle TEXT, 
+                initial REAL, 
+                courant REAL, 
+                depense REAL,
+                CONSTRAINT pk_budget PRIMARY KEY (id));''')
+
+            if(result.rowcount == 0):
+                self.__conn.commit()
+                return 0
+            else:
+                raise Exception("Table budget non cree")
+        else:
+            return -1
+
+    def save(self, budget : Modele) -> Modele:
         """
             Cette methode enregistre un nouvel element dans la base de donnees a partir d'un element fourni en parametre
 
             :param budget: Le budget a enregistrer dans la base de donnees
             :type budget: Modele
+            :return: Le budget fourni avec l'id mis a jour
+            :rtype: Modele or None
+            :raise: Une exception si l'insertion ne peut pas se faire
         """
-        return self.conn.execute('''INSERT INTO budgets(
-            libelle,
-            initial,
-            courant,
-            depense) VALUES(?,0,0,0)''', (budget.libelle))
+        if(self.__conn != None):
+            result = self.__conn.execute('''INSERT INTO budgets(
+                libelle,
+                initial,
+                courant,
+                depense) VALUES(?,0,0,0)''', (budget.libelle))
+
+            if(result.rowcount > 0):
+                self.__conn.commit()
+                budget.id = result.lastrowid
+                return budget
+            else:
+                raise Exception("Budget insertion echouee, id : "+budget.id)
+        else:
+            return None
     
-    def modify(self, budget : Modele):
+    def modify(self, budget : Modele) -> Modele:
         """
             Cette methode modifie un element dans la base de donnees a partir d'un element fourni en parametre
 
             :param budget: Le budget a modifier dans la base de donnees
             :type budget: Modele
+            :return: Le budget mis a jour
+            :rtype: Modele or None
+            :raise: Une exception si la mise a jour n'a pas pu se faire
         """
-        return self.conn.execute('''UPDATE budgets
-            SET libelle=?,init=?,courant=?,depense=? WHERE id=?
-        ''', (budget.libelle, budget.init, budget.courant, budget.depense, budget.id))
+        if(self.__conn != None):
+            result = self.__conn.execute('''UPDATE budgets
+                SET libelle=?,init=?,courant=?,depense=? WHERE id=?
+            ''', (budget.libelle, budget.init, budget.courant, budget.depense, budget.id))
+
+            if(result.rowcount > 0):
+                self.__conn.commit()
+                return budget
+            else:
+                raise Exception("Budget non mis a jour, id : "+budget.id)
+        else:
+            return None
 
     def selectAll(self) -> list:
         """
             Cette methode recupere la liste de tous les budgets dans la base de donnees et la renvoi sous la forme d'une liste de modeles
+        
+            :return: Retourne les budgets retrouves dans la base
+            :rtype: list
         """
-        budgets = list()
-        for row in self.conn.execute('''SELECT * FROM budgets'''):
-            budgets.append(Modele(
-                id=row[0],
-                libelle=row[1],
-                init=row[2],
-                courant=row[3],
-                depense=row[4]
-            ))
-        return budgets
+        if(self.__conn != None):
+            budgets = list()
+            for row in self.__conn.execute('''SELECT * FROM budgets'''):
+                budgets.append(Modele(
+                    id=row[0],
+                    libelle=row[1],
+                    init=row[2],
+                    courant=row[3],
+                    depense=row[4]
+                ))
+            return budgets
+        else:
+            return list()
+
+    def delete(self, budget : Modele) -> int:
+        """
+            Cette fonction supprime un budget de la base de donnees. Attention la suppression est definitive
+
+            :param budget: Le budget a supprimer
+            :type budget: Modele
+            :return: Un code de retour 0 : OK
+            :rtype: int
+            :raise: Une exception si la suppression echoue
+        """
+        if(self.__conn != None):
+            result = self.__conn.execute('''DELETE FROM budget WHERE id=?''', (budget.id))
+
+            if(result.rowcount > 0):
+                self.__conn.commit()
+                return 0
+            else:
+                raise Exception("Budget Echec suppression, id : "+budget.id)
+        else:
+            return -1

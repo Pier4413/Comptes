@@ -32,12 +32,15 @@ class Base(object):
         if Base.__instance != None:
             raise Exception("This class is a singleton!")
         else:
-            self.conn = sqlite3.connect("comptes.db")
-            self.cur = self.conn.cursor()
-            Base.__instance = self
+            try:
+                self.conn = sqlite3.connect("comptes.db")
+                self.cur = self.conn.cursor()
+                Base.__instance = self
+            except:
+                Base.__instance = None
 
-    def __del__(self) -> None:
-        self.conn.close()
+    #def __del__(self) -> None:
+    #    self.conn.close()
 
     def execute(self, query : str, params : list = None) -> sqlite3.Cursor:
         """
