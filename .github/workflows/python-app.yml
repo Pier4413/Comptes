@@ -26,4 +26,4 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Tests with unittest
       run: |
-        python -m unittest tests.unitaires.classes.elements.budget_test
+        python -m unittest tests.unitaires.classes.elements.budget_test tests.unitaires.classes.elements.operation_test
