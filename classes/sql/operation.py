@@ -125,11 +125,11 @@ class Operation(object):
                     id=row[0],
                     libelle=row[1],
                     montant=row[2],
-                    date=row[3],
-                    estValide=True if(row[4]==1) else False,
-                    estVerrouille=True if(row[5]==1) else False,
-                    compte=row[6],
-                    budget=row[7]
+                    compte=row[3],
+                    budget=row[4],
+                    date=row[5],
+                    estValide=True if(row[6]==1) else False,
+                    estVerrouille=True if(row[7]==1) else False
                 ))
             return operations
         else:

@@ -43,7 +43,7 @@ class Operation(object):
 
             :rtype: str
         """
-        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.estValide)+"], estVerrouille : ["+str(self.estVerrouille)+"]"
+        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.estValide)+"], estVerrouille : ["+str(self.estVerrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"]"
 
     def estCredit(self) -> bool:
         """
