@@ -1,8 +1,7 @@
 import unittest
-from xml.dom.minidom import Element
 from classes.elements.compte import Compte
 
-class Compte_test(unittest.TestCase):
+class CompteTest(unittest.TestCase):
     """
         Cette classe est un test unitaire pour la classe Compte modele
 
