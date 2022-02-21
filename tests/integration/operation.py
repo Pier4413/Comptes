@@ -8,7 +8,7 @@ from classes.elements.operation import Operation as OperationModele
 from classes.sql.operation import Operation as OperationSQL
 
 if __name__=="__main__":
-    operationSQL = OperationSQL()
+    operationSQL = OperationSQL("comptes.db")
     operation = OperationModele(libelle="Ma nouvelle operation")
 
     # Test de creation de la base de donnees

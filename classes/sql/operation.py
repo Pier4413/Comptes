@@ -10,11 +10,14 @@ class Operation(object):
         :version: 1.0
     """
 
-    def __init__(self) -> None:
+    def __init__(self, databaseName : str) -> None:
         """
             Constructeur
+
+            :param databaseName: Le nom de la base de donnees
+            :type databaseName: str
         """
-        self.__conn = Base.getInstance()
+        self.__conn = Base.getInstance(databaseName)
 
     def createTable(self) -> int:
         """
@@ -111,7 +114,7 @@ class Operation(object):
         else:
             return None
 
-    def selectAll(self) -> list:
+    def selectAll(self) -> list():
         """
             Cette methode recupere la liste de tous les operations dans la base de donnees et la renvoi sous la forme d'une liste de modeles
         
