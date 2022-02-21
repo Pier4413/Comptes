@@ -1,5 +1,4 @@
 import unittest
-from xml.dom.minidom import Element
 from classes.elements.compte import Compte
 
 class Compte_test(unittest.TestCase):
