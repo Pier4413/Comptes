@@ -2,7 +2,7 @@ import unittest
 from classes.elements.compte import Compte as CompteModele
 from classes.sql.compte import Compte as CompteSQL
 
-class OperationSQLTest(unittest.TestCase):
+class CompteSQLTest(unittest.TestCase):
     
     """
         Id global. Peut-etre modifie par les tests

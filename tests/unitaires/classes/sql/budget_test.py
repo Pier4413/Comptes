@@ -2,7 +2,7 @@ import unittest
 from classes.elements.budget import Budget as BudgetModele
 from classes.sql.budget import Budget as BudgetSQL
 
-class BudgetTest(unittest.TestCase):
+class BudgetSQLTest(unittest.TestCase):
 
     """
         Id global. Peut-etre modifie par les tests
