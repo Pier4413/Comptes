@@ -8,7 +8,7 @@ from classes.elements.compte import Compte as CompteModele
 from classes.sql.compte import Compte as CompteSQL
 
 if __name__ == "__main__":
-    compteSql = CompteSQL()
+    compteSql = CompteSQL("comptes.sql")
 
     # Test de creation de la table
     try:

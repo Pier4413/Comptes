@@ -10,11 +10,14 @@ class Compte(object):
         :version: 1.0
     """
 
-    def __init__(self) -> None:
+    def __init__(self, databaseName : str) -> None:
         """
             Constructeur
+
+            :param databaseName: Le nom de la base de donnees
+            :type databaseName: str
         """
-        self.__conn = Base.getInstance()
+        self.__conn = Base.getInstance(databaseName)
 
     def createTable(self) -> int:
         """
