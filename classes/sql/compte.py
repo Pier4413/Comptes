@@ -31,7 +31,7 @@ class Compte(object):
                 solde REAL,
                 CONSTRAINT pk_comptes PRIMARY KEY (id));''')
 
-            self.__conn.commit
+            self.__conn.commit()
             return 0
         else:
             return -1
@@ -47,7 +47,7 @@ class Compte(object):
             :raise: Une exception si l'insertion ne peut pas se faire
         """
         if(self.__conn != None):
-            result = self.__conn.execute('''INSERT INTO budgets(
+            result = self.__conn.execute('''INSERT INTO comptes(
                 libelle,
                 solde) VALUES(\"''' + str(compte.libelle) + '''\",'''+str(compte.solde)+''')''')
 
@@ -57,32 +57,6 @@ class Compte(object):
                 return compte
             else:
                 raise Exception("Compte insertion echouee, id : " + compte.id)
-        else:
-            return None
-
-    def save(self, budget : Modele) -> Modele:
-        """
-            Cette methode enregistre un nouvel element dans la base de donnees a partir d'un element fourni en parametre
-
-            :param budget: Le budget a enregistrer dans la base de donnees
-            :type budget: Modele
-            :return: Le budget fourni avec l'id mis a jour
-            :rtype: Modele or None
-            :raise: Une exception si l'insertion ne peut pas se faire
-        """
-        if(self.__conn != None):
-            result = self.__conn.execute('''INSERT INTO budgets(
-                libelle,
-                initial,
-                courant,
-                depense) VALUES(\"'''+str(budget.libelle)+'''\",0,0,0)''')
-
-            if(result.rowcount > 0):
-                self.__conn.commit()
-                budget.id = result.lastrowid
-                return budget
-            else:
-                raise Exception("Budget insertion echouee, id : "+budget.id)
         else:
             return None
     
@@ -99,7 +73,7 @@ class Compte(object):
         if(self.__conn != None):
 
             if(compte.id > 0):
-                result = self.__conn.execute('''UPDATE budgets SET libelle='''+str(compte.libelle)+''',solde='''+str(compte.solde))
+                result = self.__conn.execute('''UPDATE comptes SET libelle=\"'''+str(compte.libelle)+'''\",solde='''+str(compte.solde))
 
                 if(result.rowcount > 0):
                     self.__conn.commit()
