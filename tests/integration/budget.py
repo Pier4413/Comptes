@@ -9,6 +9,7 @@ from classes.sql.budget import Budget as BudgetSQL
 
 if __name__ == "__main__":
     budgetSql = BudgetSQL()
+    budget = BudgetModele(libelle="Nouveau budget")
 
     # Test de creation de la table
     try:
@@ -19,8 +20,6 @@ if __name__ == "__main__":
         print("Table created")
 
     # Test d'insertion dans la table
-    budget = BudgetModele(libelle="Nouveau budget")
-
     try:
         budget = budgetSql.save(budget)
     except Exception as e:

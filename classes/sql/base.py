@@ -16,31 +16,40 @@ class Base(object):
     """
     __instance = None
 
-    def getInstance():
+    def getInstance(databaseName = None):
         """ 
             Static access method
+
+            :param databaseName: Optional; Default : None; Le nom de la base de donnees, a noter qu'il n'est utile de le passer que la premiere fois que l'on instancie le singleton
+            :type databaseName: str
             :meta static:
         """
         if Base.__instance == None:
-            Base()
+            Base(databaseName)
         return Base.__instance
    
-    def __init__(self):
+    def __init__(self, databaseName : str):
         """
-            Virtually private constructor
+            Constructeur prive
+
+            :param databaseName: Le nom de la base de donnees
+            :type databaseName: str
         """
         if Base.__instance != None:
             raise Exception("This class is a singleton!")
         else:
             try:
-                self.conn = sqlite3.connect("comptes.db")
-                self.cur = self.conn.cursor()
-                Base.__instance = self
+                if(databaseName != None):
+                    self.conn = sqlite3.connect(databaseName)
+                    self.cur = self.conn.cursor()
+                    Base.__instance = self
+                else:
+                    raise Exception("You should provide a database name for the first instancation of the class")
             except:
                 Base.__instance = None
 
-    #def __del__(self) -> None:
-    #    self.conn.close()
+    def __del__(self) -> None:
+        self.conn.close()
 
     def execute(self, query : str) -> sqlite3.Cursor:
         """
