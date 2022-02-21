@@ -10,8 +10,14 @@ class Budget(object):
         :version: 1.0
     """
 
-    def __init__(self) -> None:
-        self.__conn = Base.getInstance()
+    def __init__(self, databaseName : str = None) -> None:
+        """
+            Constructeur
+
+            :param databaseName: Le nom de la base de donnees
+            :type databaseName: str
+        """
+        self.__conn = Base.getInstance(databaseName)
 
     def createTable(self) -> int:
         """
@@ -19,7 +25,6 @@ class Budget(object):
 
             :return: Un code de retour 0 : OK
             :rtype: int
-            :raise: Une exception si la table ne peut pas etre creee
         """
         if(self.__conn != None):
             self.__conn.execute('''CREATE TABLE budgets
