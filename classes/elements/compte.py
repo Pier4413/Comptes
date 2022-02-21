@@ -1,6 +1,3 @@
-from asyncio.windows_events import NULL
-
-
 class Compte(object):
     """
     Cette classe represente un compte au sein de l'application (Modele)
