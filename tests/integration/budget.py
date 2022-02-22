@@ -8,7 +8,7 @@ from classes.elements.budget import Budget as BudgetModele
 from classes.sql.budget import Budget as BudgetSQL
 
 if __name__ == "__main__":
-    budget_sql = BudgetSQL()
+    budget_sql = BudgetSQL("comptes.db")
     budget = BudgetModele(libelle="Nouveau budget")
 
     # Test de creation de la table
