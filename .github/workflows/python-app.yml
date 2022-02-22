@@ -10,10 +10,25 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  testsUnitairesUbuntu:
     runs-on: ubuntu-latest
-
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - name: Install dependencies
+      run: |
+        sudo apt install -y libegl1
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+        python -m pip install -r requirements-devel.txt
+    - name: Tests
+      run: |
+        pytest .
+  testsUnitairesWindows:
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.9
@@ -23,8 +38,24 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Tests with unittest
+        python -m pip install -r requirements.txt
+        python -m pip install -r requirements-devel.txt
+    - name: Tests
       run: |
-        python -m unittest tests.unitaires.classes.elements.budget_test tests.unitaires.classes.elements.operation_test tests.unitaires.classes.sql.operation_test tests.unitaires.classes.elements.compte_test tests.unitaires.classes.sql.compte_test
-
+        pytest .
+  testsUnitairesMacOs:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
+        python -m pip install -r requirements-devel.txt
+    - name: Tests
+      run: |
+        pytest .
