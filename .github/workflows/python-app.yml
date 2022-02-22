@@ -22,12 +22,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Tests sur les modeles
+        if [ -f requirements-devel.txt ]; then pip install -r requirements-devel.txt; fi
+    - name: Tests
       run: |
-        python -m unittest tests.unitaires.classes.elements.budget_test tests.unitaires.classes.elements.operation_test tests.unitaires.classes.elements.compte_test
-    - name: Tests sur le SQL
-      run: |
-        python -m unittest tests.unitaires.classes.sql.operation_test tests.unitaires.classes.sql.budget_test tests.unitaires.classes.sql.compte_test
+        pytest .
   testsUnitairesWindows:
     runs-on: windows-latest
     steps:
@@ -39,12 +37,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-    - name: Tests sur les modeles
+        IF EXIST "requirements.txt" ( pip install -r requirements.txt )
+        IF EXIST "requirements-devel.txt" ( pip install -r requirements-devel.txt )
+    - name: Tests
       run: |
-        python -m unittest tests.unitaires.classes.elements.budget_test tests.unitaires.classes.elements.operation_test tests.unitaires.classes.elements.compte_test
-    - name: Tests sur le SQL
-      run: |
-        python -m unittest tests.unitaires.classes.sql.operation_test tests.unitaires.classes.sql.budget_test tests.unitaires.classes.sql.compte_test
+        pytest .
   testsUnitairesMacOs:
     runs-on: macos-latest
     steps:
@@ -57,9 +54,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        if [ -f requirements-devel.txt ]; then pip install -r requirements-devel.txt; fi
     - name: Tests sur les modeles
       run: |
-        python -m unittest tests.unitaires.classes.elements.budget_test tests.unitaires.classes.elements.operation_test tests.unitaires.classes.elements.compte_test
-    - name: Tests sur le SQL
-      run: |
-        python -m unittest tests.unitaires.classes.sql.operation_test tests.unitaires.classes.sql.budget_test tests.unitaires.classes.sql.compte_test
+        pytest .
