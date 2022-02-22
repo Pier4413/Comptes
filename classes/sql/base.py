@@ -16,31 +16,31 @@ class Base(object):
     """
     __instance = None
 
-    def getInstance(databaseName = None):
+    def get_instance(database_name = None):
         """ 
             Static access method
 
-            :param databaseName: Optional; Default : None; Le nom de la base de donnees, a noter qu'il n'est utile de le passer que la premiere fois que l'on instancie le singleton
-            :type databaseName: str
+            :param database_name: Optional; Default : None; Le nom de la base de donnees, a noter qu'il n'est utile de le passer que la premiere fois que l'on instancie le singleton
+            :type database_name: str
             :meta static:
         """
         if Base.__instance == None:
-            Base(databaseName)
+            Base(database_name)
         return Base.__instance
    
-    def __init__(self, databaseName : str):
+    def __init__(self, database_name : str):
         """
             Constructeur prive
 
-            :param databaseName: Le nom de la base de donnees
-            :type databaseName: str
+            :param database_name: Le nom de la base de donnees
+            :type database_name: str
         """
         if Base.__instance != None:
             raise Exception("This class is a singleton!")
         else:
             try:
-                if(databaseName != None):
-                    self.conn = sqlite3.connect(databaseName)
+                if(database_name != None):
+                    self.conn = sqlite3.connect(database_name)
                     self.cur = self.conn.cursor()
                     Base.__instance = self
                 else:

@@ -8,12 +8,12 @@ from classes.elements.operation import Operation as OperationModele
 from classes.sql.operation import Operation as OperationSQL
 
 if __name__=="__main__":
-    operationSQL = OperationSQL("comptes.db")
+    operation_sql = OperationSQL("comptes.db")
     operation = OperationModele(libelle="Ma nouvelle operation")
 
     # Test de creation de la base de donnees
     try:
-        operationSQL.createTable()
+        operation_sql.create_table()
     except Exception as e:
         print("Erreur dans la creation de la table operation, "+str(e))
     else:
@@ -23,7 +23,7 @@ if __name__=="__main__":
     try:
         operation.compte = 1
         operation.budget = 1
-        operationSQL.save(operation)
+        operation_sql.save(operation)
     except Exception as e:
         print("Erreur insertion operation, "+str(e))
     else:
@@ -35,21 +35,21 @@ if __name__=="__main__":
         operation.compte = 3
         operation.libelle = "Operation reussie"
         operation.montant = 5.2
-        operationSQL.modify(operation)
+        operation_sql.modify(operation)
     except Exception as e:
         print("Erreur dans la modification, "+str(e))
     else:
         print("Modification reussie")
 
     # Test de recuperation dans la base de donnees
-    operations = operationSQL.selectAll()
+    operations = operation_sql.select_all()
 
     for o in operations:
         print("Retrouvee : "+str(o))
 
     # Test de suppression
     try:
-        operationSQL.delete(operation)
+        operation_sql.delete(operation)
     except Exception as e:
         print("Suppression echouee, "+str(e))
     else:

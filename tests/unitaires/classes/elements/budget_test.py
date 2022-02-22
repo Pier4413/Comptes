@@ -20,17 +20,17 @@ class BudgetTest(unittest.TestCase):
                 depense=3
             )
 
-    def testLibelle(self):
+    def test_libelle(self):
         self.assertEqual(self.budget.libelle, "Mon beau libelle", "Attendu : Mon beau libelle")
 
-    def testId(self):
+    def test_id(self):
         self.assertEqual(self.budget.id, 1, "Attendu : 1")
 
-    def testInit(self):
+    def test_init(self):
         self.assertEqual(self.budget.init, 15, "Attendu : 15")
         
-    def testCourant(self):
+    def test_courant(self):
         self.assertEqual(self.budget.courant, 20, "Attendu : 20")
 
-    def testDepense(self):
+    def test_depense(self):
         self.assertEqual(self.budget.depense, 3, "Attendu : 3")

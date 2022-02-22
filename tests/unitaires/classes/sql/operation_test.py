@@ -48,16 +48,16 @@ class OperationSQLTest(unittest.TestCase):
                 budget=self.budget
         )
     
-    def testCreateTable(self):
-        ret = self.opSql.createTable()
+    def test_create_table(self):
+        ret = self.opSql.create_table()
         self.assertEqual(ret, 0, "Attendu : 0")
 
-    def testInsertIntoDatabase(self):
+    def test_insert_into_database(self):
         ret = self.opSql.save(self.opMod)
         self.identifiant = ret.id
         self.assertEqual(ret.id, 1, "Attendu : 1")
 
-    def testModify(self):
+    def test_modify(self):
         tester = self.opMod
         tester.libelle = "TestII"
         tester.id = 1 # Normalement vu qu'on utilise qu'une seule base en memoire, on a qu'un seul element introduit par testInsertIntoDatabase
@@ -65,8 +65,8 @@ class OperationSQLTest(unittest.TestCase):
         ret = self.opSql.modify(tester)
         self.assertEqual(ret.libelle, "TestII", "Attendu : TestII")
 
-    def testSelectAll(self):
-        operations = self.opSql.selectAll()
+    def test_select_all(self):
+        operations = self.opSql.select_all()
 
         if(len(operations) == 1):
             self.assertEqual(operations[0].id, 1, "Attendu : 1") # On recupere le premier element de la base de donnees temporaire
@@ -74,7 +74,7 @@ class OperationSQLTest(unittest.TestCase):
             self.assertTrue(False) # Le test est echoue si on a rien dans la base de donnees par definition
 
     @unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
-    def testDelete(self):
+    def test_delete(self):
         tester = self.opMod
         tester.id = 1
         ret = self.opSql.delete(self.opMod)

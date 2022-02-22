@@ -10,16 +10,16 @@ class Budget(object):
         :version: 1.0
     """
 
-    def __init__(self, databaseName : str = None) -> None:
+    def __init__(self, database_name : str = None) -> None:
         """
             Constructeur
 
-            :param databaseName: Le nom de la base de donnees
-            :type databaseName: str
+            :param database_name: Le nom de la base de donnees
+            :type database_name: str
         """
-        self.__conn = Base.getInstance(databaseName)
+        self.__conn = Base.get_instance(database_name)
 
-    def createTable(self) -> int:
+    def create_table(self) -> int:
         """
             Cette methode cree la table des budgets dans la base de donnees
 
@@ -91,7 +91,7 @@ class Budget(object):
         else:
             return None
 
-    def selectAll(self) -> list:
+    def select_all(self) -> list:
         """
             Cette methode recupere la liste de tous les budgets dans la base de donnees et la renvoi sous la forme d'une liste de modeles
         

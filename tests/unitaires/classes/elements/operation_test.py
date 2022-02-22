@@ -21,31 +21,31 @@ class BudgetTest(unittest.TestCase):
             estVerrouille=True
         )
 
-    def testId(self) -> None:
+    def test_id(self) -> None:
         self.assertEqual(self.operation.id, 1, "Attendu : 1")
     
-    def testLibelle(self) -> None:
+    def test_libelle(self) -> None:
         self.assertEqual(self.operation.libelle, "Ma nouvelle operation", "Attendu : Ma nouvelle operation")
 
-    def testMontant(self) -> None:
+    def test_montant(self) -> None:
         self.assertEqual(self.operation.montant, 10, "Attendu : 10")
 
-    def testDate(self) -> None:
+    def test_date(self) -> None:
         self.assertEqual(self.operation.date, 50, "Attendu : 50")
 
-    def testEstValide(self) -> None:
-        self.assertEqual(self.operation.estValide, True, "Attendu : True")
+    def test_est_valide(self) -> None:
+        self.assertEqual(self.operation.est_valide, True, "Attendu : True")
 
-    def testEstVerrouille(self) -> None:
-        self.assertEqual(self.operation.estVerrouille, True, "Attendu : True")
+    def test_est_verrouille(self) -> None:
+        self.assertEqual(self.operation.est_verrouille, True, "Attendu : True")
     
-    def testEstCredit(self) -> None:
-        self.assertEqual(self.operation.estCredit(), True, "Attendu : True")
+    def test_est_credit(self) -> None:
+        self.assertEqual(self.operation.est_credit(), True, "Attendu : True")
 
-    def testEstDebit(self) -> None:
+    def test_est_debit(self) -> None:
         self.operation.montant = -5
-        self.assertEqual(self.operation.estCredit(), False, "Attendu : False")
+        self.assertEqual(self.operation.est_credit(), False, "Attendu : False")
 
-    def testEstCredit0(self) -> None:
+    def test_est_credit_0(self) -> None:
         self.operation.montant = 0
-        self.assertEqual(self.operation.estCredit(), True, "Attendu : True")
+        self.assertEqual(self.operation.est_credit(), True, "Attendu : True")
