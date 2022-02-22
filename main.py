@@ -30,7 +30,7 @@ def start_app():
             print("Option not handled")
 
     # Logger loading
-    Logger.get_instance().loadLogger(info_file=log_info, critical_file=log_critical, level=log_level)
+    Logger.get_instance().load_logger(info_file=log_info, critical_file=log_critical, level=log_level)
     
     # Printing options for debug purposes in the logger (i.e in files and console if wanted)
     Logger.get_instance().info("Given options : ")
