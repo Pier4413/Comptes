@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import QApplication
 from views.fenetre_principale import FenetrePrincipale
 
 from utils.misc import parse_command_line
-from utils.i18n import i18n_loading
+from utils.translation import i18n_loading
 from utils.app import start_app, clean_up
 
 # Si on est dans la boucle principale
