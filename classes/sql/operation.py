@@ -10,16 +10,16 @@ class Operation(object):
         :version: 1.0
     """
 
-    def __init__(self, databaseName : str) -> None:
+    def __init__(self, database_name : str) -> None:
         """
             Constructeur
 
-            :param databaseName: Le nom de la base de donnees
-            :type databaseName: str
+            :param database_name: Le nom de la base de donnees
+            :type database_name: str
         """
-        self.__conn = Base.getInstance(databaseName)
+        self.__conn = Base.get_instance(database_name)
 
-    def createTable(self) -> int:
+    def create_table(self) -> int:
         """
             Cette methode cree la table des operations dans la base de donnees
 
@@ -69,8 +69,8 @@ class Operation(object):
                     +''', '''+str(operation.compte)
                     +''', '''+str(operation.budget)
                     +''', '''+str(operation.date)
-                    +''', '''+str(1 if(operation.estValide) else 0)
-                    +''', '''+str(1 if(operation.estVerrouille) else 0)
+                    +''', '''+str(1 if(operation.est_valide) else 0)
+                    +''', '''+str(1 if(operation.est_verrouille) else 0)
                     +''');''')
 
             if(result.rowcount > 0):
@@ -100,8 +100,8 @@ class Operation(object):
                     +''', compte='''+str(operation.compte)
                     +''', budget='''+str(operation.budget)
                     +''', date='''+str(operation.date)
-                    +''', estValide='''+str(1 if(operation.estValide) else 0)
-                    +''', estVerrouille='''+str(1 if(operation.estVerrouille) else 0)
+                    +''', estValide='''+str(1 if(operation.est_valide) else 0)
+                    +''', estVerrouille='''+str(1 if(operation.est_verrouille) else 0)
                     +''' WHERE id='''+str(operation.id))
 
                 if(result.rowcount > 0):
@@ -114,7 +114,7 @@ class Operation(object):
         else:
             return None
 
-    def selectAll(self) -> list():
+    def select_all(self) -> list():
         """
             Cette methode recupere la liste de tous les operations dans la base de donnees et la renvoi sous la forme d'une liste de modeles
         

@@ -8,12 +8,12 @@ from classes.elements.budget import Budget as BudgetModele
 from classes.sql.budget import Budget as BudgetSQL
 
 if __name__ == "__main__":
-    budgetSql = BudgetSQL()
+    budget_sql = BudgetSQL()
     budget = BudgetModele(libelle="Nouveau budget")
 
     # Test de creation de la table
     try:
-        budgetSql.createTable()
+        budget_sql.create_table()
     except Exception:
         print("Could not create the table. Maybe it already exists")
     else:
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # Test d'insertion dans la table
     try:
-        budget = budgetSql.save(budget)
+        budget = budget_sql.save(budget)
     except Exception as e:
         print("Could not make the insertion"+ str(e))
     else:
@@ -33,21 +33,21 @@ if __name__ == "__main__":
     budget.libelle = "Libelle"
 
     try:
-        budget = budgetSql.modify(budget)
+        budget = budget_sql.modify(budget)
     except Exception as e:
         print("Could not update in the database"+str(e))
     else:
         print("Update ok : "+str(budget))
 
     # Test de recuperation dans la base de donnees
-    budgets = budgetSql.selectAll()
+    budgets = budget_sql.select_all()
 
     for b in budgets:
         print("Retrieved : "+str(b))
 
     # Test de suppression de la base de donnees
     try:
-        budgetSql.delete(budget)
+        budget_sql.delete(budget)
     except Exception:
         print("Delete failed")
     else:

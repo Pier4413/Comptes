@@ -18,11 +18,11 @@ class CompteTest(unittest.TestCase):
                 solde=-6.66
             )
 
-    def testLibelle(self):
+    def test_libelle(self):
         self.assertEqual(self.compte.libelle, "Mon miserable compte", "Attendu : Mon miserable compte")
 
-    def testId(self):
+    def test_id(self):
         self.assertEqual(self.compte.id, 1, "Attendu : 1")
 
-    def testSolde(self):
+    def test_solde(self):
         self.assertEqual(self.compte.solde, -6.66, "Attendu : -6.66")

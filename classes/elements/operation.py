@@ -32,8 +32,8 @@ class Operation(object):
         self.libelle = libelle
         self.montant = montant
         self.date = date
-        self.estValide = estValide
-        self.estVerrouille = estVerrouille
+        self.est_valide = estValide
+        self.est_verrouille = estVerrouille
         self.compte = compte
         self.budget = budget
 
@@ -43,9 +43,9 @@ class Operation(object):
 
             :rtype: str
         """
-        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.estValide)+"], estVerrouille : ["+str(self.estVerrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"]"
+        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.est_valide)+"], estVerrouille : ["+str(self.est_verrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"]"
 
-    def estCredit(self) -> bool:
+    def est_credit(self) -> bool:
         """
             Cette fonction renvoi si c'est un debit ou un credit en fonction du signe de l'operation
             
