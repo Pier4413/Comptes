@@ -1,4 +1,5 @@
 import getopt
+import i18n
 from typing import Any
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
@@ -68,4 +69,15 @@ def start_app(parameters : dict) -> None:
     # Load settings
     Settings.get_instance().load_settings(parameters["conf_file_name"])
 
-    
+def i18n_loading(translationPath : str, locale : str) -> None:
+    """
+        Cette fonction charge les fichiers de traduction
+
+        :param translationPath: Le dossier des fichiers de traduction
+        :type translationPath: str
+        :param locale: La locale a utiliser
+        :type locale: str
+    """    
+    i18n.load_path.append(translationPath)
+    i18n.set('locale', locale)
+    i18n.set('fallback', 'en')   
