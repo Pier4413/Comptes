@@ -135,3 +135,9 @@ dmypy.json
 *.db
 *.sqlite3
 *.sqlite
+
+# Conf files
+conf/
+
+# Logs files
+logs/
