@@ -1,6 +1,6 @@
 import unittest
 
-from utils import parse_command_line
+from utils.misc import parse_command_line
 
 class UtilsTest(unittest.TestCase):
 
