@@ -1,3 +1,4 @@
 python-dotenv
 PyQt6
 python-i18n
+python-dateutil
