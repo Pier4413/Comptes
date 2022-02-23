@@ -1,7 +1,7 @@
-import unittest
+import pytest
 from classes.elements.budget import Budget
 
-class BudgetTest(unittest.TestCase):
+class TestBudget():
     """
         Cette classe est un test unitaire pour la classe Budget modele
 
@@ -10,8 +10,7 @@ class BudgetTest(unittest.TestCase):
         :version: 1.0
     """
 
-    def setUp(self) -> None:
-        super().setUp()
+    def setup_method(self) -> None:
         self.budget = Budget(
                 libelle="Mon beau libelle",
                 id=1,
@@ -21,16 +20,16 @@ class BudgetTest(unittest.TestCase):
             )
 
     def test_libelle(self):
-        self.assertEqual(self.budget.libelle, "Mon beau libelle", "Attendu : Mon beau libelle")
+        assert self.budget.libelle == "Mon beau libelle", "Attendu : Mon beau libelle"
 
     def test_id(self):
-        self.assertEqual(self.budget.id, 1, "Attendu : 1")
+        assert self.budget.id == 1, "Attendu : 1"
 
     def test_init(self):
-        self.assertEqual(self.budget.init, 15, "Attendu : 15")
+        assert self.budget.init == 15, "Attendu : 15"
         
     def test_courant(self):
-        self.assertEqual(self.budget.courant, 20, "Attendu : 20")
+        assert self.budget.courant == 20, "Attendu : 20"
 
     def test_depense(self):
-        self.assertEqual(self.budget.depense, 3, "Attendu : 3")
+        assert self.budget.depense == 3, "Attendu : 3"

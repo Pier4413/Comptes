@@ -1,7 +1,7 @@
-import unittest
+import pytest
 from classes.elements.compte import Compte
 
-class CompteTest(unittest.TestCase):
+class TestCompte():
     """
         Cette classe est un test unitaire pour la classe Compte modele
 
@@ -10,8 +10,7 @@ class CompteTest(unittest.TestCase):
         :version: 1.0
     """
 
-    def setUp(self) -> None:
-        super().setUp()
+    def setup_method(self) -> None:
         self.compte = Compte(
                 libelle="Mon miserable compte",
                 id=1,
@@ -19,10 +18,10 @@ class CompteTest(unittest.TestCase):
             )
 
     def test_libelle(self):
-        self.assertEqual(self.compte.libelle, "Mon miserable compte", "Attendu : Mon miserable compte")
+        assert self.compte.libelle == "Mon miserable compte", "Attendu : Mon miserable compte"
 
     def test_id(self):
-        self.assertEqual(self.compte.id, 1, "Attendu : 1")
+        assert self.compte.id == 1, "Attendu : 1"
 
     def test_solde(self):
-        self.assertEqual(self.compte.solde, -6.66, "Attendu : -6.66")
+        assert self.compte.solde == -6.66, "Attendu : -6.66"
