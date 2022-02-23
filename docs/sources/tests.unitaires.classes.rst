@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    tests.unitaires.classes.elements
+   tests.unitaires.classes.sql
 
 Module contents
 ---------------
