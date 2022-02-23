@@ -1,7 +1,7 @@
-import unittest
+import pytest
 from classes.elements.operation import Operation
 
-class BudgetTest(unittest.TestCase):
+class TestOperation():
     """
         Cette classe est un test unitaire pour la classe Operation modele
 
@@ -10,42 +10,56 @@ class BudgetTest(unittest.TestCase):
         :version: 1.0
     """
 
-    def setUp(self) -> None:
-        super().setUp()
+    def setup_method(self) -> None:
         self.operation = Operation(
             id=1,
             libelle="Ma nouvelle operation",
             montant=10,
             date=50,
-            estValide=True,
-            estVerrouille=True
+            est_valide=True,
+            est_verrouille=True
         )
 
     def test_id(self) -> None:
-        self.assertEqual(self.operation.id, 1, "Attendu : 1")
+        assert self.operation.id == 1
     
     def test_libelle(self) -> None:
-        self.assertEqual(self.operation.libelle, "Ma nouvelle operation", "Attendu : Ma nouvelle operation")
+        assert self.operation.libelle == "Ma nouvelle operation"
 
     def test_montant(self) -> None:
-        self.assertEqual(self.operation.montant, 10, "Attendu : 10")
+        assert self.operation.montant == 10
 
     def test_date(self) -> None:
-        self.assertEqual(self.operation.date, 50, "Attendu : 50")
+        assert self.operation.date == 50
 
     def test_est_valide(self) -> None:
-        self.assertEqual(self.operation.est_valide, True, "Attendu : True")
+        assert self.operation.est_valide == True
 
     def test_est_verrouille(self) -> None:
-        self.assertEqual(self.operation.est_verrouille, True, "Attendu : True")
+        assert self.operation.est_verrouille == True
     
-    def test_est_credit(self) -> None:
-        self.assertEqual(self.operation.est_credit(), True, "Attendu : True")
+    @pytest.mark.parametrize("value", [10, 0, -5])
+    def test_est_credit(self, value) -> None:
+        self.operation.montant = value
+        attendu = (value>=0)
+        assert self.operation.est_credit() == attendu
 
-    def test_est_debit(self) -> None:
-        self.operation.montant = -5
-        self.assertEqual(self.operation.est_credit(), False, "Attendu : False")
+    @pytest.mark.parametrize("date, recursivite", [(0, "w"), (0, "ow"), (0, "m"), (0, "om"), (0, "t"),(0, "s"),(0, "y")])
+    def test_parse_nouvelle_date_recursivite(self, date, recursivite) -> None:
 
-    def test_est_credit_0(self) -> None:
-        self.operation.montant = 0
-        self.assertEqual(self.operation.est_credit(), True, "Attendu : True")
+        result = Operation.parse_nouvelle_date_recursivite(date, recursivite)
+
+        if(recursivite=="w"):
+            assert result == 604800
+        elif(recursivite=="ow"):
+            assert result == 1209600
+        elif(recursivite=="m"):
+            assert result == 2678400
+        elif(recursivite=="om"):
+            assert result == 5097600
+        elif(recursivite=="t"):
+            assert result == 7772400
+        elif(recursivite=="s"):
+            assert result == 15634800
+        elif(recursivite=="y"):
+            assert result == 31536000
