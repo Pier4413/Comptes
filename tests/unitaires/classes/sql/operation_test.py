@@ -73,7 +73,7 @@ class OperationSQLTest(unittest.TestCase):
         else:
             self.assertTrue(False) # Le test est echoue si on a rien dans la base de donnees par definition
 
-    @unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
+    #@unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
     def test_delete(self):
         tester = self.opMod
         tester.id = 1

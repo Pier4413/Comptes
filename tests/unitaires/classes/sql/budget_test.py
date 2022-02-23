@@ -49,7 +49,7 @@ class BudgetSQLTest(unittest.TestCase):
         self.identifiant = ret.id
         self.assertEqual(ret.id, 1, "Attendu : 1")
 
-    @unittest.skip("#BUG Ne marche pas à corriger")
+    #@unittest.skip("#BUG Ne marche pas à corriger")
     def test_modify(self):
         tester = self.bgMod
         tester.libelle = "TestII"
@@ -66,7 +66,7 @@ class BudgetSQLTest(unittest.TestCase):
         else:
             self.assertTrue(False) # Le test est echoue si on a rien dans la base de donnees par definition
 
-    @unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
+    #@unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
     def test_delete(self):
         tester = self.bgMod
         tester.id = 1
