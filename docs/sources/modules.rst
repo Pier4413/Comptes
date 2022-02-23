@@ -7,4 +7,5 @@ Comptes
    classes
    main
    tests
+   utils
    views
