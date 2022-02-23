@@ -1,5 +1,6 @@
 import datetime
 from dateutil.relativedelta import relativedelta
+from pytz import timezone
 
 class Operation(object):
     """
@@ -89,7 +90,7 @@ class Operation(object):
             :type recursivite: str
             :raise: Une exception si la recursivite demande n'existe pas
         """
-        date_formatted = datetime.datetime.fromtimestamp(date)
+        date_formatted = datetime.datetime.fromtimestamp(date, tz=timezone("UTC"))
 
         if(recursivite == "w"):
             return int((date_formatted + relativedelta(weeks=1)).timestamp())

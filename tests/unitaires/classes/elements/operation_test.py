@@ -58,8 +58,8 @@ class TestOperation():
         elif(recursivite=="om"):
             assert result == 5097600
         elif(recursivite=="t"):
-            assert result == 7772400
+            assert result == 7776000
         elif(recursivite=="s"):
-            assert result == 15634800
+            assert result == 15638400
         elif(recursivite=="y"):
             assert result == 31536000
