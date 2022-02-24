@@ -5,7 +5,7 @@ from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
 from PyQt6.QtWidgets import QApplication
-from utils.budget_control import BudgetControl
+from controllers.budget_control import BudgetControl
 
 from views.fenetre_principale import FenetrePrincipale
 

@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QListWidgetItem, QWidget
+from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel
 
 from classes.elements.budget import Budget as BudgetModele
 
-class BudgetListWidgetItem(QListWidgetItem):
+class BudgetListWidgetItem(QWidget):
     """
         Cette classe represente un item de la liste de budget
 
@@ -10,7 +10,6 @@ class BudgetListWidgetItem(QListWidgetItem):
         :date: 24 Fevrier 2022
         :version: 1.0
     """
-
     def __init__(self, parent : QWidget = None, budget : BudgetModele = None):
         """
             Constructeur
@@ -21,4 +20,11 @@ class BudgetListWidgetItem(QListWidgetItem):
             :type budget: BudgetModele
         """
         super().__init__(parent)
-        self.setText(budget)
+
+        h_box = QHBoxLayout(self)
+        button = QPushButton()
+        label = QLabel(budget.libelle)
+
+        h_box.addWidget(button)
+        h_box.addWidget(label)
+        self.setLayout(h_box)

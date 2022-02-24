@@ -1,10 +1,6 @@
-from typing import List
-from PyQt6.QtWidgets import QListWidget, QWidget
+from PyQt6.QtWidgets import QWidget, QListWidget, QListWidgetItem
 
-from classes.elements.budget import Budget as BudgetModele
-from views.budget.list_item import BudgetListWidgetItem
-
-class BudgetListWidget(QListWidget):
+class ListWidget(QListWidget):
     """
         Cette classe correspond a la liste des budgets disponibles
 
@@ -13,7 +9,7 @@ class BudgetListWidget(QListWidget):
         :version: 1.0 
     """
 
-    def __init__(self, parent: QWidget = None, budgets : List[BudgetModele] = list()) -> None:
+    def __init__(self, parent: QWidget = None) -> None:
         """
             Constructeur
 
@@ -24,7 +20,8 @@ class BudgetListWidget(QListWidget):
         """
         super().__init__(parent)
 
-        self.budgets = budgets
-
-        for b in self.budgets:
-            BudgetListWidgetItem(self, b)
+    def add_item(self, item : QWidget) -> None:
+        temp = QListWidgetItem(self)
+        self.addItem(temp)
+        temp.setSizeHint(item.minimumSizeHint())
+        self.setItemWidget(temp, item)
