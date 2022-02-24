@@ -1,4 +1,5 @@
 import sys
+import i18n
 
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
@@ -21,7 +22,7 @@ if __name__=="__main__":
     start_app(parameters)
 
     # Chargement des traductions
-    i18n_loading(Settings.get_instance().get('translation', 'folder_path', "./resources/translation"), Settings.get_instance().get('translation', 'locale', 'en'))
+    i18n_loading(Settings.get_instance().get('Translation', 'folder_path', "./resources/translation"), Settings.get_instance().get('Translation', 'locale', 'en'))
 
     # Demarrage de l'application
     app=QApplication(sys.argv)
@@ -30,7 +31,7 @@ if __name__=="__main__":
     app.aboutToQuit.connect(clean_up)
 
     # Creation de la fenetre principale
-    ex=FenetrePrincipale()
+    ex=FenetrePrincipale(app_name=i18n.t("translate.app_name"), width=Settings.get_instance().getint('Window', 'width', 1200), height=Settings.get_instance().getint('Window', 'height', 900))
 
     # Execution de l'application
     sys.exit(app.exec())
