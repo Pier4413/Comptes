@@ -1,25 +1,21 @@
-from PyQt6.QtWidgets import QMainWindow, QWidget
+from PyQt6.QtWidgets import QWidget, QTabWidget, QLabel
 
-from views.menu_bar import MenuBar
-from views.tabs_principal import Tabs
+import i18n
 
-class FenetrePrincipale(QMainWindow):
+class Tabs(QTabWidget):
     """
-        Cette classe correspond à la fenetre principale de l'application
+        Cette classe permet de definir un element a onglet
 
         :author: Panda <panda@delmasweb.net>
-        :date: 22 Fevrier 2022
+        :date: 24 Fevrier 2022
         :version: 1.0
     """
 
-    def __init__(self, parent : QWidget = None, app_name : str = "Comptes", 
-        x : int = 50, y : int = 50, width: int = 1000, height: int = 1000) -> None:
+    def __init__(self, parent : QWidget = None, x : int = 50, y : int = 50, width: int = 1000, height: int = 1000):
         """
             Constructor
             :param parent: Optional; Default : None; Le parent de cette fenetre
             :type parent: QWidget
-            :param app_name: Optional; Default : "Comptes"; Le nom de l'application
-            :type app_name: str
             :param x: Optional; Default : 50; Position en X du coin en haut a gauche de la fenetre sur l'ecran (en px)
             :type x: int
             :param y: Optional; Default : 50; Position en Y du coin en haut a gauche de la fenetre sur l'ecran (en px)
@@ -30,10 +26,10 @@ class FenetrePrincipale(QMainWindow):
             :type height: int
         """
         super().__init__(parent)
-        self.setWindowTitle(app_name)
         self.setGeometry(x, y, width, height)
-        self.setMenuBar(MenuBar())
-        
-        self.tabs = Tabs(self, x=x-40,y=y-25,width=width*0.99, height=height*0.99)
 
-        self.show()
+        self.comptes = QLabel(i18n.t("translate.init"))
+        self.addTab(self.comptes, i18n.t("translate.accounts"))
+
+        self.budgets = QLabel(i18n.t("translate.init"))
+        self.addTab(self.budgets, i18n.t("translate.budgets"))
