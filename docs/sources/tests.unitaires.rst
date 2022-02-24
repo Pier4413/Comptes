@@ -8,7 +8,6 @@ Subpackages
    :maxdepth: 4
 
    tests.unitaires.classes
-   tests.unitaires.views
 
 Submodules
 ----------

@@ -12,6 +12,12 @@ class MenuBar(QMenuBar):
     """
 
     def __init__(self, parent: QWidget = None) -> None:
+        """
+            Constructeur
+
+            :param parent: Optional; Default : None; Le parent de cette fenetre
+            :type parent: QWidget
+        """
         super().__init__(parent)
 
         # Ajout un menu dans la menu bar
