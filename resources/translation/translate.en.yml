@@ -3,5 +3,10 @@ en:
   app_name: "Accounts"
   accounts: "Accounts"
   budgets: "Budgets"
+  menubar:
+    file:
+      name: "&File"
+      open_file: "&Open File"
+
     
     
