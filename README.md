@@ -1,6 +1,19 @@
 # Comptes
 Petite application de gestion de comptes
 
+## Options en ligne de commandes
+
+Il existe quelques options en ligne de commande avec des valeurs par defaut
+
+- `--settings` : Chemin (relatif ou absolu) du fichier de configuration
+  - Valeur par defaut : ./conf/settings.ini
+- `--log_level` : Le niveau minimal des logs avec 
+  - Valeur par defaut : 20
+- `--log_info_file` : Chemin (relatif ou absolu) du fichier de log info
+  - Valeur par defaut : ./logs/info.log
+- `--log_crit_file` : Chemin (relatif ou absolu) du fichier de log des erreurs
+  - Valeur par defaut : ./logs/critical.log
+
 ## Parametres
 
 Il est possible de gerer les paramètres depuis un fichier au format ini dont on peut fournir le chemin a l'execution avec l'option `--settings`
