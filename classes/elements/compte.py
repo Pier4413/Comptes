@@ -38,3 +38,11 @@ class Compte(object):
         :rtype: str
         """
         return "Id : [" + str(self.id) + "], Libelle : [" + str(self.libelle) + "], Solde : [" + str(self.solde) + "], Operations : [" + str(self.operations) + "]"
+
+    def recalcule_solde(self) -> str:
+        """
+            Cette fonction recalcule le solde disponible
+        """
+        for o in self.operations:
+            self.solde = self.solde + o.montant
+        self.solde = round(self.solde, 2)

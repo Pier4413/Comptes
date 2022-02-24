@@ -42,7 +42,7 @@ class Budget(object):
             Cette fonction recalcule le montant depense sur un budget
         """
         for o in self.operations:
-            self.depense = self.depense - o.montant
+            self.depense = self.depense - o.montant # On met un moins car nous on cherche a savoir ce qui a ete depense (donc une valeur positive) mais les operations sont en valeur absolue (i.e < 0 : Debit, >=0 Credit )
 
     def recalcule_courant(self) -> None:
         """

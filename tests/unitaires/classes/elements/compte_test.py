@@ -1,5 +1,6 @@
 import pytest
 from classes.elements.compte import Compte
+from classes.elements.operation import Operation
 
 class TestCompte():
     """
@@ -25,3 +26,12 @@ class TestCompte():
 
     def test_solde(self):
         assert self.compte.solde == -6.66, "Attendu : -6.66"
+
+    def test_recalcule_solde(self):
+        self.compte.operations = [
+            Operation(montant=-2),
+            Operation(montant=-8.3),
+            Operation(montant=10)
+        ]
+        self.compte.recalcule_solde()
+        assert self.compte.solde == -6.96, "Attendu : -6.96"
