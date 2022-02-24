@@ -1,8 +1,8 @@
-import unittest
+import pytest
 import pytestqt
 
 from views.fenetre_principale import FenetrePrincipale
 
-@unittest.skip("Non testee car rien a tester")
-class FenetrePrincipaleTest(unittest.TestCase):
+@pytest.mark.skip("Non testee car rien a tester")
+class TestFenetrePrincipale():
     pass

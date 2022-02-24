@@ -1,5 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
+from views.menu_bar import MenuBar
+
 class FenetrePrincipale(QMainWindow):
     """
         Cette classe correspond à la fenetre principale de l'application
@@ -29,4 +31,5 @@ class FenetrePrincipale(QMainWindow):
         super().__init__(parent)
         self.setWindowTitle(app_name)
         self.setGeometry(x, y, width, height)
+        self.setMenuBar(MenuBar())
         self.show()
