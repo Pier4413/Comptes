@@ -1,5 +1,6 @@
 en:
   init: "Init..."
+  app_name: "Accounts"
   accounts: "Accounts"
   budgets: "Budgets"
     
