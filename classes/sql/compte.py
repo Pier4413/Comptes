@@ -120,7 +120,7 @@ class Compte(object):
         if(self.__conn is not None):
             result = self.__conn.cur.execute('''DELETE FROM comptes WHERE id=?''', [compte.id])
 
-            if(result.rowcount == 0):
+            if(result.rowcount > 0):
                 self.__conn.conn.commit()
                 return 0
             else:

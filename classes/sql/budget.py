@@ -132,12 +132,16 @@ class Budget(object):
             :raise: Une exception si la suppression echoue
         """
         if(self.__conn is not None):
-            result = self.__conn.cur.execute('''DELETE FROM budgets WHERE id=?''', [budget.id])
 
-            if(result.rowcount == 0):
-                self.__conn.conn.commit()
-                return 0
-            else:
-                raise Exception(f"Budget Echec suppression, id : {budget.id}")
+            try:
+                result = self.__conn.cur.execute('''DELETE FROM budgets WHERE id=?''', [budget.id])
+                
+                if(result.rowcount > 0):
+                    self.__conn.conn.commit()
+                    return 0
+                else:
+                    raise Exception(f"Budget Echec suppression, id : {budget.id}")
+            except Exception as e:
+                raise Exception(f"Budget can't delete budget {e}")
         else:
             return -1

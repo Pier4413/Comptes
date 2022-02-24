@@ -175,7 +175,7 @@ class Operation(object):
         if(self.__conn is not None):
             result = self.__conn.cur.execute('''DELETE FROM operations WHERE id=?''', [operation.id])
 
-            if(result.rowcount == 0):
+            if(result.rowcount > 0):
                 self.__conn.conn.commit()
                 return 0
             else:

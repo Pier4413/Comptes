@@ -48,7 +48,6 @@ class TestBudgetSQL():
         self.identifiant = ret.id
         assert ret.id == 1, "Attendu : 1"
 
-    #@unittest.skip("#BUG Ne marche pas à corriger")
     def test_modify(self):
         tester = self.bgMod
         tester.libelle = "TestII"
@@ -65,7 +64,6 @@ class TestBudgetSQL():
         else:
             assert True == False # Le test est echoue si on a rien dans la base de donnees par definition
 
-    @pytest.mark.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
     def test_delete(self):
         tester = self.bgMod
         tester.id = 1
