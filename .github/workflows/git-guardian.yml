@@ -13,7 +13,7 @@ jobs:
           fetch-depth: 0 # fetch all history so multiple commits can be scanned
       - name: Test
         run: | 
-          echo "Test" && echo ${{ secrets.GITGUARDIAN_API_KEY}}
+          echo "Test" && echo ${{ secrets }}
       - name: GitGuardian scan
         uses: GitGuardian/gg-shield-action@master
         env:
