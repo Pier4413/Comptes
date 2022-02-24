@@ -11,7 +11,7 @@ def start_app(parameters : dict) -> None:
         :type parameters: dict
     """
     # Logger loading
-    Logger.get_instance().load_logger(info_file=parameters["log_info"], critical_file=parameters["log_critical"], level=parameters["log_level"], app_name="Accounts")
+    Logger.get_instance().load_logger(info_file=parameters["log_info"], critical_file=parameters["log_critical"], console = True, level=parameters["log_level"], app_name="Accounts")
     
     # Printing options for debug purposes in the logger (i.e in files and console if wanted)
     Logger.get_instance().info("Given options : ")
