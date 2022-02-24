@@ -5,6 +5,7 @@ from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
 from PyQt6.QtWidgets import QApplication
+from utils.budget_control import BudgetControl
 
 from views.fenetre_principale import FenetrePrincipale
 
@@ -38,5 +39,8 @@ if __name__=="__main__":
     # Creation de la fenetre principale
     ex=FenetrePrincipale(app_name=i18n.t("translate.app_name"), width=Settings.get_instance().getint('Window', 'width', 1200), height=Settings.get_instance().getint('Window', 'height', 900))
 
+    # Controleur pour les budgets
+    budgetControl  = BudgetControl(ex)
+    
     # Execution de l'application
     sys.exit(app.exec())

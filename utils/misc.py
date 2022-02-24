@@ -1,5 +1,4 @@
 import getopt
-import i18n
 from typing import Any
 
 def parse_command_line(args : Any) -> dict:
