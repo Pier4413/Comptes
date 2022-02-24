@@ -1,3 +1,5 @@
+import i18n
+
 from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from views.menu_bar import MenuBar
@@ -34,6 +36,6 @@ class FenetrePrincipale(QMainWindow):
         self.setGeometry(x, y, width, height)
         self.setMenuBar(MenuBar())
         
-        self.tabs = Tabs(self, x=x-40,y=y-25,width=width*0.99, height=height*0.99)
+        self.tabs = Tabs(self, x=x-40,y=y-25,width=width*0.98, height=height*0.97)
 
         self.show()
