@@ -84,6 +84,7 @@ class Operation(object):
         """
             Cette fonction renvoi la nouvelle date en fonction du parsing de la recursivite
 
+            :meta static:
             :param date: La date sous forme d'un timestamp
             :type date: La date
             :param recursivite: La recursivite sous forme d'une chaine de caractere
