@@ -7,3 +7,5 @@ fr:
     file:
       name: "&Fichier"
       open_file: "&Ouvrir"
+  budget:
+    add: "Ajouter"
