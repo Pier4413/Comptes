@@ -16,8 +16,6 @@ jobs:
           echo "Test" && echo ${{ secrets.GITGUARDIAN_API_KEY}}
       - name: GitGuardian scan
         uses: GitGuardian/gg-shield-action@master
-        with:
-          --show-secrets
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
