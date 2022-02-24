@@ -8,6 +8,8 @@ from PyQt6.QtWidgets import QApplication
 
 from views.fenetre_principale import FenetrePrincipale
 
+from classes.sql.base import Base as BaseSQL
+
 from utils.misc import parse_command_line
 from utils.translation import i18n_loading
 from utils.app import start_app, clean_up
@@ -23,6 +25,9 @@ if __name__=="__main__":
 
     # Chargement des traductions
     i18n_loading(Settings.get_instance().get('Translation', 'folder_path', "./resources/translation"), Settings.get_instance().get('Translation', 'locale', 'en'))
+
+    # Ouverture de la base de donnees
+    BaseSQL.get_instance(Settings.get_instance().get('Database', 'filename', 'comptes.db'))
 
     # Demarrage de l'application
     app=QApplication(sys.argv)
