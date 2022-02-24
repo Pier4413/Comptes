@@ -1,5 +1,6 @@
 import pytest
 from classes.elements.budget import Budget
+from classes.elements.operation import Operation
 
 class TestBudget():
     """
@@ -33,3 +34,15 @@ class TestBudget():
 
     def test_depense(self):
         assert self.budget.depense == 3, "Attendu : 3"
+
+    def test_recalcule_depense(self):
+        self.budget.operations = [
+            Operation(montant=-10),
+            Operation(montant=-20)
+        ]
+        self.budget.recalcule_depense()
+        assert self.budget.depense == 33, "Attendu : 33"
+
+    def test_recalcule_courant(self):
+        self.budget.recalcule_courant()
+        assert self.budget.courant == 12

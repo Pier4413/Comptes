@@ -1,3 +1,8 @@
+from typing import List
+
+from classes.elements.operation import Operation
+
+
 class Compte(object):
     """
     Cette classe represente un compte au sein de l'application (Modele)
@@ -7,7 +12,7 @@ class Compte(object):
     :version: 1.0 
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operations : list = list()) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operations : List[Operation] = list()) -> None:
         """
         Construction
 
