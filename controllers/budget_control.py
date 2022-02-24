@@ -42,12 +42,12 @@ class BudgetControl(object):
 
     def add_a_budget(self) -> None:
         budget = BudgetModele(libelle="Nouveau budget", init=0, courant=0, depense=0)
-        self.app.tabs.budgets.budgets.add_item(
-            BudgetListWidgetItem(
-                budget=budget
-            )
-        )
-        self.budgetSql.save(budget)
+        budget = self.budgetSql.save(budget)
+
+        budget_item = BudgetListWidgetItem(budget=budget)
+        budget_item.update_budget.connect(self.update_budget)
+        budget_item.delete_budget.connect(self.delete_budget)
+        self.app.tabs.budgets.budgets.add_item(budget_item)
 
     def read_budgets(self) -> None:
         """
@@ -69,20 +69,39 @@ class BudgetControl(object):
             :param budget: Le budget recu
             :type budget: BudgetModele
         """
-        Logger.get_instance().info("Nouveau budget recu")
+        Logger.get_instance().debug("Nouveau budget recu")
+        budget_item = BudgetListWidgetItem(budget=budget)
+        budget_item.update_budget.connect(self.update_budget)
+        budget_item.delete_budget.connect(self.delete_budget)
+        self.app.tabs.budgets.budgets.add_item(budget_item)
 
     def budget_worker_finished(self) -> None:
         """
             Fonction de gestion sur fin du worker de la lecture de donnees
         """
-        Logger.get_instance().info("Chargement des budgets finis")
+        Logger.get_instance().info(f"Chargement des budgets finis")
 
-    def load_budgets_in_window(self) -> None:
+    def update_budget(self, budget : BudgetModele) -> None:
         """
-            Fonction qui charge une liste de budgets dans la page fenetre principale
+            Cette fonction est appelle lorsqu'un budget est modifie et fait une sauvegarde dans la base de donnees
+
+            :param budget: Le nouveau budget a sauvegarde
+            :type budget: BudgetModele
         """
-        for b in self.budgets:
-            self.app.tabs.budgets.budgets.addItem(BudgetListWidgetItem(
-                b
-            ))
+        try:
+            self.budgetSql.modify(budget)
+        except Exception as e:
+            Logger.get_instance().error(f"Impossible de mettre a jour le budget avec l'id : {budget.id}. Erreur complete : {e}")
+
+    def delete_budget(self, budget : BudgetModele) -> None:
+        """
+            Cette fonction est appelle lorsqu'un budget est modifie et fait la sauvegarde en base de donnees en plus de supprimer de la liste
+
+            :param budget: Le budget a supprimer
+            :type budget: BudgetModele
+        """
+        try:
+            self.budgetSql.delete(budget)
+        except Exception as e:
+            Logger.get_instance().error(f"Impossible de supprimer le budget avec l'id : {budget.id}. Erreur complete : {e}")
 

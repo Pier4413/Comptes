@@ -35,7 +35,7 @@ class Budget(object):
         self.operations = operations
 
     def __str__(self) -> str:
-        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Init : ["+str(self.init)+"], Courant : ["+str(self.courant)+"], Depense : ["+str(self.depense)+"], Operations : ["+str(self.operations)+"]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Init : [{self.init}], Courant : [{self.courant}], Depense : [{self.depense}], Operations : [{self.operations}]"
 
     def recalcule_depense(self) -> None:
         """

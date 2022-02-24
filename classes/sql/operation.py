@@ -91,7 +91,7 @@ class Operation(object):
                 operation.id = result.lastrowid
                 return operation
             else:
-                raise Exception("Operation insertion echouee, id : "+operation.id)
+                raise Exception(f"Operation insertion echouee, id : {operation.id}")
         else:
             return None
     
@@ -131,7 +131,7 @@ class Operation(object):
                     self.__conn.conn.commit()
                     return operation
                 else:
-                    raise Exception("Operation non mis a jour, id : "+operation.id)
+                    raise Exception(f"Operation non mis a jour, id : {operation.id}")
             else:
                 raise Exception("Could not update a non existent data")
         else:
@@ -179,7 +179,7 @@ class Operation(object):
                 self.__conn.conn.commit()
                 return 0
             else:
-                raise Exception("Operation Echec suppression, id : "+str(operation.id))
+                raise Exception(f"Operation Echec suppression, id : {operation.id}")
         else:
             return -1
     

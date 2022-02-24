@@ -71,5 +71,5 @@ class FenetrePrincipale(QMainWindow):
         super().resizeEvent(a0)
         self.real_width = a0.size().width()
         self.real_height = a0.size().height()
-        Logger.get_instance().debug("Taille de la fenetre : "+str(self.real_width)+", "+str(self.real_height))
+        Logger.get_instance().debug(f"Taille de la fenetre : {self.real_width}, {self.real_height}")
         self.tabs.change_size(x=5,y=25,width=self.real_width-5, height=self.real_height-27)

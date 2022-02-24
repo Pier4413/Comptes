@@ -59,7 +59,7 @@ class Compte(object):
                 compte.id = result.lastrowid
                 return compte
             else:
-                raise Exception("Compte insertion echouee, id : " + compte.id)
+                raise Exception(f"Compte insertion echouee, id : {compte.id}")
         else:
             return None
     
@@ -82,9 +82,9 @@ class Compte(object):
                     self.__conn.conn.commit()
                     return compte
                 else:
-                    raise Exception("Compte non mis a jour, id : "+str(compte.id))
+                    raise Exception(f"Compte non mis a jour, id : {compte.id}")
             else:
-                raise Exception("Could not update a non existent data")
+                raise Exception(f"Could not update a non existent data")
         else:
             return None
 
@@ -124,7 +124,7 @@ class Compte(object):
                 self.__conn.conn.commit()
                 return 0
             else:
-                raise Exception("Budget Echec suppression, id : "+str(compte.id))
+                raise Exception(f"Budget Echec suppression, id : {compte.id}")
         else:
             return -1
 
