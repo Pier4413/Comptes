@@ -12,6 +12,22 @@ classes.elements.budget module
    :undoc-members:
    :show-inheritance:
 
+classes.elements.compte module
+------------------------------
+
+.. automodule:: classes.elements.compte
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+classes.elements.operation module
+---------------------------------
+
+.. automodule:: classes.elements.operation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

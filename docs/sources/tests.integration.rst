@@ -12,6 +12,22 @@ tests.integration.budget module
    :undoc-members:
    :show-inheritance:
 
+tests.integration.compte module
+-------------------------------
+
+.. automodule:: tests.integration.compte
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.integration.operation module
+----------------------------------
+
+.. automodule:: tests.integration.operation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

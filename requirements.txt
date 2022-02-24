@@ -1,2 +1,5 @@
 python-dotenv
+pytz
 PyQt6
+python-i18n
+python-dateutil

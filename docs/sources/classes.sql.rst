@@ -20,6 +20,22 @@ classes.sql.budget module
    :undoc-members:
    :show-inheritance:
 
+classes.sql.compte module
+-------------------------
+
+.. automodule:: classes.sql.compte
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+classes.sql.operation module
+----------------------------
+
+.. automodule:: classes.sql.operation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

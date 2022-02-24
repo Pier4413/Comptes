@@ -26,8 +26,8 @@ class Budget(object):
             :return: Un code de retour 0 : OK
             :rtype: int
         """
-        if(self.__conn != None):
-            self.__conn.execute('''CREATE TABLE budgets
+        if(self.__conn is not None):
+            self.__conn.cur.execute('''CREATE TABLE budgets
                 (id INTEGER NOT NULL, 
                 libelle TEXT, 
                 initial REAL, 
@@ -35,7 +35,7 @@ class Budget(object):
                 depense REAL,
                 CONSTRAINT pk_budget PRIMARY KEY (id));''')
 
-            self.__conn.commit()
+            self.__conn.conn.commit()
             return 0
         else:
             return -1
@@ -50,15 +50,15 @@ class Budget(object):
             :rtype: Modele or None
             :raise: Une exception si l'insertion ne peut pas se faire
         """
-        if(self.__conn != None):
-            result = self.__conn.execute('''INSERT INTO budgets(
+        if(self.__conn is not None):
+            result = self.__conn.cur.execute('''INSERT INTO budgets(
                 libelle,
                 initial,
                 courant,
                 depense) VALUES(\"'''+str(budget.libelle)+'''\",0,0,0)''')
 
             if(result.rowcount > 0):
-                self.__conn.commit()
+                self.__conn.conn.commit()
                 budget.id = result.lastrowid
                 return budget
             else:
@@ -76,13 +76,22 @@ class Budget(object):
             :rtype: Modele or None
             :raise: Une exception si la mise a jour n'a pas pu se faire
         """
-        if(self.__conn != None):
+        if(self.__conn is not None):
 
             if(budget.id > 0):
-                result = self.__conn.execute('''UPDATE budgets SET libelle='''+str(budget.libelle)+''',initial='''+str(budget.init)+''',courant='''+str(budget.courant)+''',depense='''+str(budget.depense)+''' WHERE id='''+str(budget.id))
+                result = self.__conn.cur.execute('''UPDATE budgets SET libelle=?
+                , initial=?
+                , courant=?
+                , depense=?
+                WHERE id=?'''
+                , [budget.libelle
+                , budget.init
+                , budget.courant
+                , budget.depense
+                , budget.id])
 
                 if(result.rowcount > 0):
-                    self.__conn.commit()
+                    self.__conn.conn.commit()
                     return budget
                 else:
                     raise Exception("Budget non mis a jour, id : "+budget.id)
@@ -98,9 +107,9 @@ class Budget(object):
             :return: Retourne les budgets retrouves dans la base
             :rtype: list
         """
-        if(self.__conn != None):
+        if(self.__conn is not None):
             budgets = list()
-            for row in self.__conn.execute('''SELECT * FROM budgets'''):
+            for row in self.__conn.cur.execute('''SELECT * FROM budgets'''):
                 budgets.append(Modele(
                     id=row[0],
                     libelle=row[1],
@@ -122,13 +131,13 @@ class Budget(object):
             :rtype: int
             :raise: Une exception si la suppression echoue
         """
-        if(self.__conn != None):
-            result = self.__conn.execute('''DELETE FROM budgets WHERE id='''+str(budget.id))
+        if(self.__conn is not None):
+            result = self.__conn.cur.execute('''DELETE FROM budgets WHERE id=?''', [budget.id])
 
-            if(result.rowcount > 0):
-                self.__conn.commit()
+            if(result.rowcount == 0):
+                self.__conn.conn.commit()
                 return 0
             else:
-                raise Exception("Budget Echec suppression, id : "+budget.id)
+                raise Exception("Budget Echec suppression, id : "+str(budget.id))
         else:
             return -1

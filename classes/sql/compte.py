@@ -27,14 +27,14 @@ class Compte(object):
             :rtype: int
             :raise: Une exception si la table ne peut etre creee
         """
-        if(self.__conn != None):
-            self.__conn.execute('''CREATE TABLE comptes
+        if(self.__conn is not None):
+            self.__conn.cur.execute('''CREATE TABLE comptes
                 (id INTEGER NOT NULL, 
                 libelle TEXT, 
                 solde REAL,
                 CONSTRAINT pk_comptes PRIMARY KEY (id));''')
 
-            self.__conn.commit()
+            self.__conn.conn.commit()
             return 0
         else:
             return -1
@@ -49,13 +49,13 @@ class Compte(object):
             :rtype: Modele or None
             :raise: Une exception si l'insertion ne peut pas se faire
         """
-        if(self.__conn != None):
-            result = self.__conn.execute('''INSERT INTO comptes(
+        if(self.__conn is not None):
+            result = self.__conn.cur.execute('''INSERT INTO comptes(
                 libelle,
-                solde) VALUES(\"''' + str(compte.libelle) + '''\",'''+str(compte.solde)+''')''')
+                solde) VALUES(?, ?)''', [compte.libelle, compte.solde])
 
             if(result.rowcount > 0):
-                self.__conn.commit()
+                self.__conn.conn.commit()
                 compte.id = result.lastrowid
                 return compte
             else:
@@ -73,13 +73,13 @@ class Compte(object):
             :rtype: Modele or None
             :raise: Une exception si la mise a jour n'a pas pu se faire
         """
-        if(self.__conn != None):
+        if(self.__conn is not None):
 
             if(compte.id > 0):
-                result = self.__conn.execute('''UPDATE comptes SET libelle=\"'''+str(compte.libelle)+'''\",solde='''+str(compte.solde))
+                result = self.__conn.cur.execute('''UPDATE comptes SET libelle=?,solde=?''', [compte.libelle, compte.solde])
 
                 if(result.rowcount > 0):
-                    self.__conn.commit()
+                    self.__conn.conn.commit()
                     return compte
                 else:
                     raise Exception("Compte non mis a jour, id : "+str(compte.id))
@@ -95,9 +95,9 @@ class Compte(object):
             :return: Retourne les comptes retrouves dans la base
             :rtype: list
         """
-        if(self.__conn != None):
+        if(self.__conn is not None):
             comptes = list()
-            for row in self.__conn.execute('''SELECT * FROM comptes'''):
+            for row in self.__conn.cur.execute('''SELECT * FROM comptes'''):
                 comptes.append(Modele(
                     id=row[0],
                     libelle=row[1],
@@ -117,14 +117,14 @@ class Compte(object):
             :rtype: int
             :raise: Une exception si la suppression echoue
         """
-        if(self.__conn != None):
-            result = self.__conn.execute('''DELETE FROM comptes WHERE id='''+str(compte.id))
+        if(self.__conn is not None):
+            result = self.__conn.cur.execute('''DELETE FROM comptes WHERE id=?''', [compte.id])
 
-            if(result.rowcount > 0):
-                self.__conn.commit()
+            if(result.rowcount == 0):
+                self.__conn.conn.commit()
                 return 0
             else:
-                raise Exception("Budget Echec suppression, id : "+compte.id)
+                raise Exception("Budget Echec suppression, id : "+str(compte.id))
         else:
             return -1
 

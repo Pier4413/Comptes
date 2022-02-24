@@ -1,3 +1,8 @@
+from typing import List
+
+from classes.elements.operation import Operation
+
+
 class Compte(object):
     """
     Cette classe represente un compte au sein de l'application (Modele)
@@ -7,7 +12,7 @@ class Compte(object):
     :version: 1.0 
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operations : list = list()) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operations : List[Operation] = list()) -> None:
         """
         Construction
 
@@ -33,3 +38,11 @@ class Compte(object):
         :rtype: str
         """
         return "Id : [" + str(self.id) + "], Libelle : [" + str(self.libelle) + "], Solde : [" + str(self.solde) + "], Operations : [" + str(self.operations) + "]"
+
+    def recalcule_solde(self) -> str:
+        """
+            Cette fonction recalcule le solde disponible
+        """
+        for o in self.operations:
+            self.solde = self.solde + o.montant
+        self.solde = round(self.solde, 2)

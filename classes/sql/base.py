@@ -35,11 +35,11 @@ class Base(object):
             :param database_name: Le nom de la base de donnees
             :type database_name: str
         """
-        if Base.__instance != None:
+        if Base.__instance is not None:
             raise Exception("This class is a singleton!")
         else:
             try:
-                if(database_name != None):
+                if(database_name is not None):
                     self.conn = sqlite3.connect(database_name)
                     self.cur = self.conn.cursor()
                     Base.__instance = self
@@ -50,17 +50,3 @@ class Base(object):
 
     def __del__(self) -> None:
         self.conn.close()
-
-    def execute(self, query : str) -> sqlite3.Cursor:
-        """
-            Cette methode cree les tables
-
-            :param query: La requete a executee
-            :type query: str
-            :return: Le resultat de la requete
-            :rtype: sqlite3.Cursor
-        """
-        return self.cur.execute(query)
-
-    def commit(self) -> None:
-        self.conn.commit()

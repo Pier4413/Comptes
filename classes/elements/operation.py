@@ -1,3 +1,7 @@
+import datetime
+from dateutil.relativedelta import relativedelta
+from pytz import timezone
+
 class Operation(object):
     """
         Cette classe permet de modeliser une operation
@@ -7,7 +11,7 @@ class Operation(object):
         :version: 1.0
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", montant : float = 0, date : int = 0, estValide : bool = False, estVerrouille : bool = False, compte : int = -1, budget : int = -1) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", montant : float = 0, date : int = 0, est_valide : bool = False, est_verrouille : bool = False, compte : int = -1, budget : int = -1, recursivite : str = None) -> None:
         """
             Constructeur
 
@@ -32,10 +36,11 @@ class Operation(object):
         self.libelle = libelle
         self.montant = montant
         self.date = date
-        self.est_valide = estValide
-        self.est_verrouille = estVerrouille
+        self.est_valide = est_valide
+        self.est_verrouille = est_verrouille
         self.compte = compte
         self.budget = budget
+        self.recursivite = recursivite
 
     def __str__(self) -> str:
         """
@@ -43,7 +48,7 @@ class Operation(object):
 
             :rtype: str
         """
-        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.est_valide)+"], estVerrouille : ["+str(self.est_verrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"]"
+        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.est_valide)+"], estVerrouille : ["+str(self.est_verrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"], Recursivite : ["+str(self.recursivite)+"]"
 
     def est_credit(self) -> bool:
         """
@@ -53,3 +58,54 @@ class Operation(object):
             :rtype: bool
         """
         return self.montant >= 0
+
+    def traite_recursivite(self):
+        """
+            Cette fonction permet de traiter la recursivite d'une operation. Elle cree une nouvelle operation avec la nouvelle date
+
+            :return: La nouvelle operation
+            :rtype: Operation
+        """
+        if(self.recursivite is not None):
+            try:
+                return Operation(
+                    libelle=self.libelle,
+                    montant=self.montant,
+                    date=Operation.parse_nouvelle_date_recursivite(self.date, self.recursivite),
+                    budget=self.budget,
+                    compte=self.compte,
+                    recursivite=self.recursivite
+                )
+            except Exception:
+                return None
+        return None
+
+    def parse_nouvelle_date_recursivite(date : int, recursivite : str) -> int:
+        """
+            Cette fonction renvoi la nouvelle date en fonction du parsing de la recursivite
+
+            :meta static:
+            :param date: La date sous forme d'un timestamp
+            :type date: La date
+            :param recursivite: La recursivite sous forme d'une chaine de caractere
+            :type recursivite: str
+            :raise: Une exception si la recursivite demande n'existe pas
+        """
+        date_formatted = datetime.datetime.fromtimestamp(date, tz=timezone("UTC"))
+
+        if(recursivite == "w"):
+            return int((date_formatted + relativedelta(weeks=1)).timestamp())
+        elif(recursivite == "ow"):
+            return int((date_formatted + relativedelta(weeks=2)).timestamp())
+        elif(recursivite == "m"):
+            return int((date_formatted + relativedelta(months=1)).timestamp())
+        elif(recursivite == "om"):
+            return int((date_formatted + relativedelta(months=2)).timestamp())
+        elif(recursivite == "t"):
+            return int((date_formatted + relativedelta(months=3)).timestamp())
+        elif(recursivite == "s"):
+            return int((date_formatted + relativedelta(months=6)).timestamp())
+        elif(recursivite == "y"):
+            return int((date_formatted + relativedelta(years=1)).timestamp())
+        else:
+            raise Exception("La recursivite demande n'existe pas")

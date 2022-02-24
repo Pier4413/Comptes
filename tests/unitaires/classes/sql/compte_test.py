@@ -1,8 +1,8 @@
-import unittest
+import pytest
 from classes.elements.compte import Compte as CompteModele
 from classes.sql.compte import Compte as CompteSQL
 
-class CompteSQLTest(unittest.TestCase):
+class TestCompteSQL():
     
     """
         Id global. Peut-etre modifie par les tests
@@ -17,10 +17,9 @@ class CompteSQLTest(unittest.TestCase):
     """
         Montant global. Peut-etre modifie par les tests
     """
-    solde=30  
+    solde=30
     
-    def setUp(self) -> None:
-        super().setUp()
+    def setup_method(self) -> None:
         self.cptSql = CompteSQL(":memory:")
         self.cptMod = CompteModele(
             id=self.identifiant,
@@ -30,12 +29,12 @@ class CompteSQLTest(unittest.TestCase):
     
     def test_create_table(self):
         ret = self.cptSql.create_table()
-        self.assertEqual(ret, 0, "Attendu : 0")
+        assert ret == 0, "Attendu : 0"
 
     def test_insert_into_database(self):
         ret = self.cptSql.save(self.cptMod)
         self.identifiant = ret.id
-        self.assertEqual(ret.id, 1, "Attendu : 1")
+        assert ret.id == 1, "Attendu : 1"
 
     def test_modify(self):
         tester = self.cptMod
@@ -43,19 +42,19 @@ class CompteSQLTest(unittest.TestCase):
         tester.id = 1 # Normalement vu qu'on utilise qu'une seule base en memoire, on a qu'un seul element introduit par testInsertIntoDatabase
         
         ret = self.cptSql.modify(tester)
-        self.assertEqual(ret.libelle, "TestII", "Attendu : TestII")
+        assert ret.libelle == "TestII", "Attendu : TestII"
 
     def test_select_all(self):
         operations = self.cptSql.select_all()
 
         if(len(operations) == 1):
-            self.assertEqual(operations[0].id, 1, "Attendu : 1") # On recupere le premier element de la base de donnees temporaire
+            assert operations[0].id == 1, "Attendu : 1" # On recupere le premier element de la base de donnees temporaire
         else:
-            self.assertTrue(False) # Le test est echoue si on a rien dans la base de donnees par definition
+            assert True == False # Le test est echoue si on a rien dans la base de donnees par definition
 
-    @unittest.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
+    @pytest.mark.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
     def testDelete(self):
         tester = self.cptMod
         tester.id = 1
         ret = self.cptSql.delete(self.cptMod)
-        self.assertEqual(ret, 0, "Attendu : 0")
+        assert ret == 0, "Attendu : 0"
