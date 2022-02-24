@@ -1,10 +1,13 @@
 import i18n
 
+from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QResizeEvent
-from PyQt6.QtWidgets import QMainWindow, QWidget, QGridLayout
+from PyQt6.QtWidgets import QMainWindow, QWidget
 
 from views.menu_bar import MenuBar
 from views.tabs_principal import Tabs
+
+from modules.logger.logger import Logger
 
 class FenetrePrincipale(QMainWindow):
     """
@@ -15,21 +18,14 @@ class FenetrePrincipale(QMainWindow):
         :version: 1.0
     """
 
-    """
-        Hauteur minimale de notre application
+    def MINIMUM_SIZE() -> QSize:
+        """
+            Fonction permettant de simuler une variable statique pour la taille minimale
 
-        :type: int
-        :meta static:
-    """
-    MINIMUM_HEIGHT = 800
-
-    """
-        Largeur minimale de notre application
-
-        :type: int
-        :meta static:
-    """
-    MINIMUM_WIDTH = 800
+            :return: La valeur statique
+            :rtype: int
+        """
+        return QSize(800, 800)
 
     def __init__(self, parent : QWidget = None, app_name : str = "Comptes", 
         x : int = 50, y : int = 50, width: int = 1000, height: int = 1000) -> None:
@@ -56,7 +52,7 @@ class FenetrePrincipale(QMainWindow):
         self.real_width = width
         self.real_height = height
 
-        self.setMinimumSize(FenetrePrincipale.MINIMUM_WIDTH, FenetrePrincipale.MINIMUM_HEIGHT)
+        self.setMinimumSize(FenetrePrincipale.MINIMUM_SIZE())
         
         self.setWindowTitle(app_name)
         self.setGeometry(x, y, width, height)
