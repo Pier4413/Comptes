@@ -1,5 +1,3 @@
-import i18n
-
 from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QResizeEvent
 from PyQt6.QtWidgets import QMainWindow, QWidget
@@ -58,7 +56,7 @@ class FenetrePrincipale(QMainWindow):
         self.setGeometry(x, y, width, height)
         self.setMenuBar(MenuBar())
         
-        self.tabs = Tabs(self, x=self.real_x-40,y=self.real_y-25,width=self.real_width*0.985, height=self.real_height*0.97)
+        self.tabs = Tabs(parent=self)
 
         self.show()
 
@@ -73,4 +71,5 @@ class FenetrePrincipale(QMainWindow):
         super().resizeEvent(a0)
         self.real_width = a0.size().width()
         self.real_height = a0.size().height()
-        self.tabs.change_size(x=self.real_x-40,y=self.real_y-25,width=self.real_width*0.985, height=self.real_height*0.97)
+        Logger.get_instance().debug("Taille de la fenetre : "+str(self.real_width)+", "+str(self.real_height))
+        self.tabs.change_size(x=5,y=25,width=self.real_width-5, height=self.real_height-27)
