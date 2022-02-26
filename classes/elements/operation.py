@@ -48,7 +48,7 @@ class Operation(object):
 
             :rtype: str
         """
-        return "Id : ["+str(self.id)+"], Libelle : ["+str(self.libelle)+"], Montant : ["+str(self.montant)+"], Date : ["+str(self.date)+"], estValide : ["+str(self.est_valide)+"], estVerrouille : ["+str(self.est_verrouille)+"], Compte : ["+str(self.compte)+"], Budget : ["+str(self.budget)+"], Recursivite : ["+str(self.recursivite)+"]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Montant : [{self.montant}], Date : [{self.date}], estValide : [{self.est_valide}], estVerrouille : [{self.est_verrouille}], Compte : [{self.compte}], Budget : [{self.budget}], Recursivite : [{self.recursivite}]"
 
     def est_credit(self) -> bool:
         """
@@ -108,4 +108,4 @@ class Operation(object):
         elif(recursivite == "y"):
             return int((date_formatted + relativedelta(years=1)).timestamp())
         else:
-            raise Exception("La recursivite demande n'existe pas")
+            raise Exception(f"La recursivite demande [{recursivite}] n'existe pas")

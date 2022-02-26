@@ -15,9 +15,9 @@ if __name__=="__main__":
     try:
         operation_sql.create_table()
     except Exception as e:
-        print("Erreur dans la creation de la table operation, "+str(e))
+        print(f"Erreur dans la creation de la table operation, {e}")
     else:
-        print("Creation de la table")
+        print(f"Creation de la table")
 
     # Test d'insertion dans la table
     try:
@@ -25,9 +25,9 @@ if __name__=="__main__":
         operation.budget = 1
         operation_sql.save(operation)
     except Exception as e:
-        print("Erreur insertion operation, "+str(e))
+        print(f"Erreur insertion operation, {e}")
     else:
-        print("Insertion reussie")
+        print(f"Insertion reussie")
 
     #Test de mise à jour dans la table
     try:
@@ -37,20 +37,20 @@ if __name__=="__main__":
         operation.montant = 5.2
         operation_sql.modify(operation)
     except Exception as e:
-        print("Erreur dans la modification, "+str(e))
+        print(f"Erreur dans la modification, {e}")
     else:
-        print("Modification reussie")
+        print(f"Modification reussie")
 
     # Test de recuperation dans la base de donnees
     operations = operation_sql.select_all()
 
     for o in operations:
-        print("Retrouvee : "+str(o))
+        print(f"Retrouvee : {o}")
 
     # Test de suppression
     try:
         operation_sql.delete(operation)
     except Exception as e:
-        print("Suppression echouee, "+str(e))
+        print(f"Suppression echouee. Erreur : {e}")
     else:
-        print("Suppression reussie")
+        print(f"Suppression reussie")

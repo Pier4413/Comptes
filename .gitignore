@@ -135,6 +135,7 @@ dmypy.json
 *.db
 *.sqlite3
 *.sqlite
+*.db-journal
 
 # Conf files
 conf/
