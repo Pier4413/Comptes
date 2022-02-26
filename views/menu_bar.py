@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QMenuBar, QWidget, QMenu
+import i18n
 
+from PyQt6.QtWidgets import QMenuBar, QWidget, QMenu
 from modules.logger.logger import Logger
 
 class MenuBar(QMenuBar):
@@ -21,10 +22,10 @@ class MenuBar(QMenuBar):
         super().__init__(parent)
 
         # Ajout un menu dans la menu bar
-        self.firstMenu = QMenu("Fichier", self)
+        self.firstMenu = QMenu(i18n.t("translate.menubar.file.name"), self)
 
         # Ajoute une action et un trigger sur cette action dans le menu precedemment cree
-        self.firstAction = self.firstMenu.addAction("&Open File")
+        self.firstAction = self.firstMenu.addAction(i18n.t("translate.menubar.file.open_file"))
         self.firstAction.triggered.connect(self.openFile)
 
         # Ajout le menu a la menu bar

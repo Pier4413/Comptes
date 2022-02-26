@@ -52,7 +52,6 @@ class TestCompteSQL():
         else:
             assert True == False # Le test est echoue si on a rien dans la base de donnees par definition
 
-    @pytest.mark.skip("#BUG Ne marche pas avec le delete pour une raison obscure")
     def testDelete(self):
         tester = self.cptMod
         tester.id = 1

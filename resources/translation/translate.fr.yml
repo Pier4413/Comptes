@@ -3,3 +3,10 @@ fr:
   app_name: "Comptes"
   accounts: "Comptes"
   budgets: "Budgets"
+  delete: "Supprimer"
+  menubar:
+    file:
+      name: "&Fichier"
+      open_file: "&Ouvrir"
+  budget:
+    add: "Ajouter"

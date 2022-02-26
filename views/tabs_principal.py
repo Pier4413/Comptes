@@ -1,7 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QTabWidget, QLabel
 
 import i18n
 
+from PyQt6.QtWidgets import QWidget, QTabWidget, QLabel
+
+from views.budget.view import BudgetView
 class Tabs(QTabWidget):
     """
         Cette classe permet de definir un element a onglet
@@ -32,7 +34,7 @@ class Tabs(QTabWidget):
         self.comptes = QLabel(i18n.t("translate.init"))
         self.addTab(self.comptes, i18n.t("translate.accounts"))
 
-        self.budgets = QLabel(i18n.t("translate.init"))
+        self.budgets = BudgetView()
         self.addTab(self.budgets, i18n.t("translate.budgets"))
     
     def change_size(self, x : int, y : int, width: int, height: int):

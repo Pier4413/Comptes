@@ -14,9 +14,9 @@ if __name__ == "__main__":
     try:
         compte_sql.create_table()
     except Exception as e:
-        print("Could not create the table. Maybe it already exists"+str(e))
+        print(f"Could not create the table. Maybe it already exists {e}")
     else:
-        print("Table created")
+        print(f"Table created")
 
     # Test d'insertion dans la table
     compte = CompteModele(libelle="Nouveau compte",solde=144.25)
@@ -24,9 +24,9 @@ if __name__ == "__main__":
     try:
         compte = compte_sql.save(compte)
     except Exception as e:
-        print("Could not make the insertion"+ str(e))
+        print(f"Could not make the insertion {e}")
     else:
-        print("Insert ok : "+str(compte))
+        print(f"Insert ok : {compte}")
 
     # Test de mise a jour dans la table
     compte.solde = 150.00
@@ -35,20 +35,20 @@ if __name__ == "__main__":
     try:
         compte = compte_sql.modify(compte)
     except Exception as e:
-        print("Could not update in the database"+str(e))
+        print(f"Could not update in the database {e}")
     else:
-        print("Update ok : "+str(compte))
+        print(f"Update ok : {compte}")
 
     # Test de recuperation dans la base de donnees
     comptes = compte_sql.select_all()
 
     for b in comptes:
-        print("Retrieved : "+str(b))
+        print(f"Retrieved : {b}")
 
     # Test de suppression de la base de donnees
     try:
         compte_sql.delete(compte)
     except Exception:
-        print("Delete failed")
+        print(f"Delete failed")
     else:
-        print("Delete ok")
+        print(f"Delete ok")

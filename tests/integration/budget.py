@@ -15,17 +15,17 @@ if __name__ == "__main__":
     try:
         budget_sql.create_table()
     except Exception:
-        print("Could not create the table. Maybe it already exists")
+        print(f"Could not create the table. Maybe it already exists")
     else:
-        print("Table created")
+        print(f"Table created")
 
     # Test d'insertion dans la table
     try:
         budget = budget_sql.save(budget)
     except Exception as e:
-        print("Could not make the insertion"+ str(e))
+        print(f"Could not make the insertion {e}")
     else:
-        print("Insert ok : "+str(budget))
+        print(f"Insert ok : {budget}")
 
     # Test de mise a jour dans la table
     budget.init = 10
@@ -35,20 +35,20 @@ if __name__ == "__main__":
     try:
         budget = budget_sql.modify(budget)
     except Exception as e:
-        print("Could not update in the database"+str(e))
+        print(f"Could not update in the database {e}")
     else:
-        print("Update ok : "+str(budget))
+        print(f"Update ok : {budget}")
 
     # Test de recuperation dans la base de donnees
     budgets = budget_sql.select_all()
 
     for b in budgets:
-        print("Retrieved : "+str(b))
+        print(f"Retrieved : {b}")
 
     # Test de suppression de la base de donnees
     try:
         budget_sql.delete(budget)
     except Exception:
-        print("Delete failed")
+        print(f"Delete failed")
     else:
-        print("Delete ok")
+        print(f"Delete ok")

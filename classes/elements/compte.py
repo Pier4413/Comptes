@@ -37,7 +37,7 @@ class Compte(object):
         :return: Retourne le contenu des attributs sous format texte
         :rtype: str
         """
-        return "Id : [" + str(self.id) + "], Libelle : [" + str(self.libelle) + "], Solde : [" + str(self.solde) + "], Operations : [" + str(self.operations) + "]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Solde : [{self.solde}], Operations : [{self.operations}]"
 
     def recalcule_solde(self) -> str:
         """
