@@ -41,7 +41,9 @@ class BudgetControl(object):
         self.add_button.clicked.connect(self.add_a_budget)
 
     def add_a_budget(self) -> None:
-
+        """
+            Ajoute un budget
+        """
         # On cree le nouveau budget
         budget = BudgetModele(libelle="Nouveau budget", init=0, courant=0, depense=0)
         
