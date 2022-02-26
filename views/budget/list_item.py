@@ -16,16 +16,21 @@ class BudgetListWidgetItem(QWidget):
     """
 
     """
-        pyqtSignal a envoye quand on met a jour le budget
+        pyqtSignal a envoye quand on met a jour le montant initial
     """
-    update_budget = pyqtSignal(BudgetModele)
+    update_init = pyqtSignal(float, int)
+
+    """
+        pyqtSignal a envoye quand on met a jour le libelle
+    """
+    update_libelle = pyqtSignal(str, int)
 
     """
         pyqtSignal a envoye quand on supprime un budget
     """
-    delete_budget = pyqtSignal(BudgetModele)
+    delete_budget = pyqtSignal(int)
 
-    def __init__(self, parent : QWidget = None, budget : BudgetModele = None):
+    def __init__(self, parent : QWidget = None, id : int = 0, libelle : str = None, montant_init : float = 0, montant_depense : float = 0, montant_courant : float = 0):
         """
             Constructeur
 
@@ -33,6 +38,8 @@ class BudgetListWidgetItem(QWidget):
             :type parent: QWidget
             :param budget: Optional; Default : None; Le modele du budget
             :type budget: BudgetModele
+            :param row_pos: Optional; Default : 0; Le numero de la ligne
+            :type row_pos: int
         """
         super().__init__(parent)
 
@@ -40,16 +47,16 @@ class BudgetListWidgetItem(QWidget):
         self.h_box = QHBoxLayout(self)
 
         # On cree les widgets
-        self.budget = budget
-        self.libelle = QLineEdit(self.budget.libelle)
-        self.init = QLineEdit(str(self.budget.init))
-        self.depense = QLabel(str(self.budget.depense))
-        self.restant = QLabel(str(self.budget.courant))
+        self.id = id
+        self.libelle = QLineEdit(libelle)
+        self.init = QLineEdit(str(montant_init))
+        self.depense = QLabel(str(montant_depense))
+        self.restant = QLabel(str(montant_courant))
         self.delete = QPushButton(i18n.t("translate.delete"))
 
         # On ajoute les evenements necessaire
-        self.libelle.editingFinished.connect(self.update_budget_libelle)
-        self.init.editingFinished.connect(self.update_init)
+        self.libelle.editingFinished.connect(self.update_budget_libelle_f)
+        self.init.editingFinished.connect(self.update_init_f)
         self.delete.clicked.connect(self.delete_budget_f)
 
         # On ajoute les widgets au layout
@@ -62,43 +69,29 @@ class BudgetListWidgetItem(QWidget):
         # Puis on set le layout pour cet item
         self.setLayout(self.h_box)
 
-    def update_budget_libelle(self) -> None:
+    def update_budget_libelle_f(self) -> None:
         """
             Cette fonction met a jour le budget avec un nouveau libelle
         """
         # On ecrit un log pour le debug
         Logger.get_instance().debug(f"Libelle de budget mis a jour : {self.libelle.text()}")
         
-        # On change le texte dans le budget courant
-        self.budget.libelle = self.libelle.text()
-
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_budget.emit(self.budget)
+        self.update_libelle.emit(self.libelle.text(), self.id)
 
-    def update_init(self) -> None:
+    def update_init_f(self) -> None:
         """
             Cette fonction met a jour le budget avec le nouveau montant initial
         """
         # On ecrit un log pour le debug
         Logger.get_instance().debug(f"Montant init de budget mis a jour : {self.libelle.text()}")
 
-        # On met a jour les montants dans le budget courant et l'interface
-        self.budget.init = float(self.init.text())
-        self.budget.recalcule_depense()
-        self.budget.recalcule_courant()
-        self.depense.setText(str(self.budget.depense))
-        self.restant.setText(str(self.budget.courant))
-
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_budget.emit(self.budget)
+        self.update_init.emit(float(self.init.text()), self.id)
 
     def delete_budget_f(self) -> None:
         """
             Cette fonction efface un budget
         """
-        self.libelle.deleteLater()
-        self.init.deleteLater()
-        self.depense.deleteLater()
-        self.restant.deleteLater()
-        self.delete.deleteLater()
-        self.delete_budget.emit(self.budget)
+        # On emet l'evenement de suppression pour la base de donnees
+        self.delete_budget.emit(self.id)
