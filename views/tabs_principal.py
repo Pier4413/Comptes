@@ -1,3 +1,5 @@
+from PyQt6.QtWidgets import QWidget, QTabWidget
+from views.fenetre_comptes import FenetreComptes
 
 import i18n
 
@@ -31,7 +33,7 @@ class Tabs(QTabWidget):
         super().__init__(parent)
         self.change_size(x, y, width, height)
 
-        self.comptes = QLabel(i18n.t("translate.init"))
+        self.comptes = FenetreComptes()
         self.addTab(self.comptes, i18n.t("translate.accounts"))
 
         self.budgets = BudgetView()
