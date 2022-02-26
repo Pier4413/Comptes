@@ -66,6 +66,7 @@ class ListWidget(QListWidget):
             :param new_items: La nouvelle liste d'items
             :type new_items: List[QWidget]
         """
+        return # On evite cette fonction car elle ne marche comme je le voudrais
         # BUG : Cette fonction ne marche pas mais fait s'arreter l'application
         self.clear_list()
         self.add_items(new_items)

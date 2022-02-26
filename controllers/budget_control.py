@@ -1,7 +1,3 @@
-from typing import List
-
-from PyQt6.QtCore import QThread
-
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
@@ -12,9 +8,6 @@ from classes.sql.budget import Budget as BudgetSQL
 
 from views.fenetre_principale import FenetrePrincipale
 from views.budget.list_item import BudgetListWidgetItem
-from views.list_view import ListWidget
-
-from workers.budget_worker import BudgetWorker
 
 class BudgetControl(object):
 
