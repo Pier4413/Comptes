@@ -1,11 +1,12 @@
 import i18n
 
-from PyQt6.QtCore import pyqtSignal
-from PyQt6.QtWidgets import QLineEdit, QLabel, QHBoxLayout, QWidget, QPushButton
+from PyQt6.QtCore import pyqtSignal, Qt
+from PyQt6.QtWidgets import QLineEdit, QLabel, QHBoxLayout, QWidget, QPushButton, QSizePolicy
 
-from classes.elements.budget import Budget as BudgetModele
+from views.clickable_label import ClickableLabel
 
 from modules.logger.logger import Logger
+
 class BudgetListWidgetItem(QWidget):
     """
         Cette classe represente un item de la liste de budget
@@ -48,26 +49,80 @@ class BudgetListWidgetItem(QWidget):
 
         # On cree les widgets
         self.id = id
-        self.libelle = QLineEdit(libelle)
-        self.init = QLineEdit(str(montant_init))
+        
+        # Creation du libelle et dimensionnement
+        self.libelle = ClickableLabel(libelle)
+        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.clicked.connect(self.modify_libelle)
+        
+        #Creation du montant initial
+        self.init = ClickableLabel(str(montant_init))
+        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.clicked.connect(self.modify_init)
+        
+        # Creation du label de montant depense
         self.depense = QLabel(str(montant_depense))
-        self.restant = QLabel(str(montant_courant))
-        self.delete = QPushButton(i18n.t("translate.delete"))
 
-        # On ajoute les evenements necessaire
-        self.libelle.editingFinished.connect(self.update_budget_libelle_f)
-        self.init.editingFinished.connect(self.update_init_f)
+        # Creation du label de montant restant
+        self.restant = QLabel(str(montant_courant))
+
+        # Creation du bouton de suppression d'element
+        self.delete = QPushButton(i18n.t("translate.delete"))
         self.delete.clicked.connect(self.delete_budget_f)
 
-        # On ajoute les widgets au layout
-        self.h_box.addWidget(self.libelle)
-        self.h_box.addWidget(self.init)
-        self.h_box.addWidget(self.depense)
-        self.h_box.addWidget(self.restant)
-        self.h_box.addWidget(self.delete)
+        # On ajoute les widgets au layout avec des stretchs pour determiner leur taille
+        self.h_box.addWidget(self.libelle, 3)
+        self.h_box.addWidget(self.init, 2)
+        self.h_box.addWidget(self.depense,2)
+        self.h_box.addWidget(self.restant,2)
+        self.h_box.addWidget(self.delete,1)
 
         # Puis on set le layout pour cet item
         self.setLayout(self.h_box)
+
+    def modify_libelle(self) -> None:
+        """
+            Cette fonction transforme le label clickable de libelle en QLineEdit pour le modifier
+        """
+        
+        # On log l'evenement
+        Logger.get_instance().debug("Label clicked")
+
+        # On supprime le label
+        self.h_box.removeWidget(self.libelle)
+
+        # On cree le line edit
+        self.libelle = QLineEdit(self.libelle.text())
+        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.setFocus()
+        self.libelle.editingFinished.connect(self.update_budget_libelle_f)
+
+        # On l'insere a la place du label
+        self.h_box.insertWidget(0, self.libelle, 3)
+
+    def modify_init(self) -> None:
+        """
+            Cette fonction transforme le label clickable de init en QLineEdit pour le modifier
+        """
+        
+        # On log l'evenement
+        Logger.get_instance().debug("Init clicked")
+
+        # On supprime le label
+        self.h_box.removeWidget(self.init)
+
+        # On cree le line edit
+        self.init = QLineEdit(self.init.text())
+        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.setFocus()
+        self.init.editingFinished.connect(self.update_init_f)
+
+        # On l'insere a la place du label
+        self.h_box.insertWidget(1, self.init, 2)
 
     def update_budget_libelle_f(self) -> None:
         """
@@ -75,6 +130,18 @@ class BudgetListWidgetItem(QWidget):
         """
         # On ecrit un log pour le debug
         Logger.get_instance().debug(f"Libelle de budget mis a jour : {self.libelle.text()}")
+
+        # On supprime le line edit
+        self.h_box.removeWidget(self.libelle)
+
+        # On cree le label
+        self.libelle = ClickableLabel(self.libelle.text())
+        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.clicked.connect(self.modify_libelle)
+
+        # On l'insere a la place du line edit
+        self.h_box.insertWidget(0, self.libelle, 3)
         
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
         self.update_libelle.emit(self.libelle.text(), self.id)
@@ -84,7 +151,19 @@ class BudgetListWidgetItem(QWidget):
             Cette fonction met a jour le budget avec le nouveau montant initial
         """
         # On ecrit un log pour le debug
-        Logger.get_instance().debug(f"Montant init de budget mis a jour : {self.libelle.text()}")
+        Logger.get_instance().debug(f"Montant init de budget mis a jour : {self.init.text()}")
+
+        # On supprime le line edit
+        self.h_box.removeWidget(self.init)
+
+        # On cree le label
+        self.init = ClickableLabel(self.init.text())
+        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.clicked.connect(self.modify_init)
+
+        # On l'insere a la place du line edit
+        self.h_box.insertWidget(1, self.init, 2)
 
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
         self.update_init.emit(float(self.init.text()), self.id)
