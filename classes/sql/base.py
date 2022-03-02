@@ -16,7 +16,7 @@ class Base(object):
     """
     __instance = None
 
-    def get_instance(database_name = None):
+    def get_instance(database_name : str = None):
         """ 
             Static access method
 

@@ -62,7 +62,7 @@ class Budget(object):
                 budget.id = result.lastrowid
                 return budget
             else:
-                raise Exception("Budget insertion echouee, id : "+budget.id)
+                raise Exception(f"Budget insertion echouee, id : {budget.id}")
         else:
             return None
     
@@ -94,9 +94,9 @@ class Budget(object):
                     self.__conn.conn.commit()
                     return budget
                 else:
-                    raise Exception("Budget non mis a jour, id : "+budget.id)
+                    raise Exception(f"Budget non mis a jour, id : {budget.id}")
             else:
-                raise Exception("Could not update a non existent data")
+                raise Exception(f"Could not update a non existent data")
         else:
             return None
 
@@ -132,12 +132,16 @@ class Budget(object):
             :raise: Une exception si la suppression echoue
         """
         if(self.__conn is not None):
-            result = self.__conn.cur.execute('''DELETE FROM budgets WHERE id=?''', [budget.id])
 
-            if(result.rowcount == 0):
-                self.__conn.conn.commit()
-                return 0
-            else:
-                raise Exception("Budget Echec suppression, id : "+str(budget.id))
+            try:
+                result = self.__conn.cur.execute('''DELETE FROM budgets WHERE id=?''', [budget.id])
+                
+                if(result.rowcount > 0):
+                    self.__conn.conn.commit()
+                    return 0
+                else:
+                    raise Exception(f"Budget Echec suppression, id : {budget.id}")
+            except Exception as e:
+                raise Exception(f"Budget can't delete budget {e}")
         else:
             return -1

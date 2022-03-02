@@ -5,8 +5,11 @@ from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
 from PyQt6.QtWidgets import QApplication
+from controllers.budget_control import BudgetControl
 
 from views.fenetre_principale import FenetrePrincipale
+
+from classes.sql.base import Base as BaseSQL
 
 from utils.misc import parse_command_line
 from utils.translation import i18n_loading
@@ -24,6 +27,9 @@ if __name__=="__main__":
     # Chargement des traductions
     i18n_loading(Settings.get_instance().get('Translation', 'folder_path', "./resources/translation"), Settings.get_instance().get('Translation', 'locale', 'en'))
 
+    # Ouverture de la base de donnees
+    BaseSQL.get_instance(Settings.get_instance().get('Database', 'filename', 'comptes.db'))
+
     # Demarrage de l'application
     app=QApplication(sys.argv)
 
@@ -33,5 +39,8 @@ if __name__=="__main__":
     # Creation de la fenetre principale
     ex=FenetrePrincipale(app_name=i18n.t("translate.app_name"), width=Settings.get_instance().getint('Window', 'width', 1200), height=Settings.get_instance().getint('Window', 'height', 900))
 
+    # Controleur pour les budgets
+    budgetControl  = BudgetControl(ex)
+    
     # Execution de l'application
     sys.exit(app.exec())
