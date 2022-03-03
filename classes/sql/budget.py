@@ -33,6 +33,8 @@ class Budget(object):
                 initial REAL, 
                 courant REAL, 
                 depense REAL,
+                mois INTEGER,
+                annee INTEGER,
                 CONSTRAINT pk_budget PRIMARY KEY (id));''')
 
             self.__conn.conn.commit()
@@ -55,7 +57,7 @@ class Budget(object):
                 libelle,
                 initial,
                 courant,
-                depense) VALUES(\"'''+str(budget.libelle)+'''\",0,0,0)''')
+                depense) VALUES(?,0,0,0)''', budget.libelle)
 
             if(result.rowcount > 0):
                 self.__conn.conn.commit()
@@ -83,11 +85,15 @@ class Budget(object):
                 , initial=?
                 , courant=?
                 , depense=?
+                , mois=?
+                , annee=?
                 WHERE id=?'''
                 , [budget.libelle
                 , budget.init
                 , budget.courant
                 , budget.depense
+                , budget.mois
+                , budget.annee
                 , budget.id])
 
                 if(result.rowcount > 0):
@@ -115,11 +121,52 @@ class Budget(object):
                     libelle=row[1],
                     init=row[2],
                     courant=row[3],
-                    depense=row[4]
+                    depense=row[4],
+                    mois=row[5],
+                    annee=row[6]
                 ))
             return budgets
         else:
             return list()
+
+    def select_par_mois_annee(self, mois : int, annee : int) -> list:
+        """
+            Cette methode recupere tous les budgets pour un mois et une annee et le renvoi sous forme de liste de modeles
+
+            :param mois: Le mois vise
+            :param annee: L'annee visee
+            :return: La liste des budgets correspondants
+            :rtype: list
+        """
+        if(self.__conn is not None):
+            budgets = list()
+            for row in self.__conn.cur.execute('''SELECT * from budgets WHERE mois=? AND annee=?''', mois, annee):
+                budgets.append(Modele(
+                    id=row[0],
+                    libelle=row[1],
+                    init=row[2],
+                    courant=row[3],
+                    depense=row[4],
+                    mois=row[5],
+                    annee=row[6]
+                ))
+            return budgets
+        else:
+            return list()
+
+    def verifie_si_mois_annee_existe_ou_cree(self, mois : int, annee : int) -> None:
+        """
+            Cette methode recupere tous les budgets pour un mois et une annee et le renvoi sous forme de liste de modeles
+
+            :param mois: Le mois vise
+            :param annee: L'annee visee
+            :return: La liste des budgets correspondants
+            :rtype: list
+        """
+        if(len(self.select_par_mois_annee(mois, annee)) == 0):
+            budgets = self.select_par_mois_annee(mois - 1, annee)
+            for b in budgets:
+                self.save(b)
 
     def delete(self, budget : Modele) -> int:
         """

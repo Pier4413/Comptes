@@ -10,7 +10,15 @@ class Budget(object):
         :version: 1.0
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", init : float = 0, courant : float = 0, depense : float = 0, operations : List[Operation] = list()) -> None:
+    def __init__(self, 
+        id : int = -1, 
+        libelle : str = "", 
+        init : float = 0, 
+        courant : float = 0, 
+        depense : float = 0,
+        mois : int = 0,
+        annee : int = 0,
+        operations : List[Operation] = list()) -> None:
         """
             Constructeur
 
@@ -33,9 +41,11 @@ class Budget(object):
         self.courant = courant
         self.depense = depense
         self.operations = operations
+        self.mois = mois
+        self.annee = annee
 
     def __str__(self) -> str:
-        return f"Id : [{self.id}], Libelle : [{self.libelle}], Init : [{self.init}], Courant : [{self.courant}], Depense : [{self.depense}], Operations : [{self.operations}]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Init : [{self.init}], Courant : [{self.courant}], Depense : [{self.depense}], Mois/Annee:[{self.mois}/{self.annee}] Operations : [{self.operations}]"
 
     def recalcule_depense(self) -> None:
         """
