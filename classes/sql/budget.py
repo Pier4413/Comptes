@@ -57,7 +57,9 @@ class Budget(object):
                 libelle,
                 initial,
                 courant,
-                depense) VALUES(?,0,0,0)''', budget.libelle)
+                depense,
+                mois,
+                annee) VALUES(?,0,?,0,?,?)''', [budget.libelle, budget.courant, budget.mois, budget.annee])
 
             if(result.rowcount > 0):
                 self.__conn.conn.commit()
@@ -140,7 +142,7 @@ class Budget(object):
         """
         if(self.__conn is not None):
             budgets = list()
-            for row in self.__conn.cur.execute('''SELECT * from budgets WHERE mois=? AND annee=?''', mois, annee):
+            for row in self.__conn.cur.execute('''SELECT * from budgets WHERE mois=? AND annee=?''',[mois, annee]):
                 budgets.append(Modele(
                     id=row[0],
                     libelle=row[1],
@@ -156,16 +158,28 @@ class Budget(object):
 
     def verifie_si_mois_annee_existe_ou_cree(self, mois : int, annee : int) -> None:
         """
-            Cette methode recupere tous les budgets pour un mois et une annee et le renvoi sous forme de liste de modeles
+            Cette methode cree le mois et annee le plus proche du dernier présent dans la base de donnees
 
             :param mois: Le mois vise
             :param annee: L'annee visee
             :return: La liste des budgets correspondants
             :rtype: list
         """
-        if(len(self.select_par_mois_annee(mois, annee)) == 0):
-            budgets = self.select_par_mois_annee(mois - 1, annee)
+        budgets = self.select_par_mois_annee(mois, annee)
+        if(len(budgets) == 0):
+            if(mois == 1):
+                annee = annee - 1
+                mois = 12
+            else:
+                mois = mois - 1
+            budgets = self.verifie_si_mois_annee_existe_ou_cree(mois, annee)
+        else:
             for b in budgets:
+                if(b.mois == 12):
+                    b.annee = b.annee + 1
+                    b.mois = 1
+                else:
+                    b.mois = b.mois + 1
                 self.save(b)
 
     def delete(self, budget : Modele) -> int:

@@ -36,6 +36,8 @@ class TestBudgetSQL():
             libelle=self.libelle,
             courant=self.courant,
             depense=self.depense,
+            mois=1,
+            annee=0,
             init=self.init
         )
     
@@ -57,12 +59,30 @@ class TestBudgetSQL():
         assert ret.libelle == "TestII", "Attendu : TestII"
 
     def test_select_all(self):
-        operations = self.bgSql.select_all()
+        budgets = self.bgSql.select_all()
 
-        if(len(operations) == 1):
-            assert operations[0].id == 1, "Attendu : 1" # On recupere le premier element de la base de donnees temporaire
+        if(len(budgets) == 1):
+            assert budgets[0].id == 1, "Attendu : 1" # On recupere le premier element de la base de donnees temporaire
         else:
             assert True == False # Le test est echoue si on a rien dans la base de donnees par definition
+
+    def test_select_par_mois_et_annee(self):
+        budgets = self.bgSql.select_par_mois_annee(1,0)
+
+        if(len(budgets) == 1):
+            assert budgets[0].id == 1, "Attendu : 1"
+        else:
+            assert True == False
+
+    def test_verifie_si_mois_annee_existe_ou_cree(self):
+        self.bgSql.verifie_si_mois_annee_existe_ou_cree(12,1)
+
+        budgets = self.bgSql.select_all()
+
+        if(len(budgets) == 2):
+            assert True == True, "Attendu : 2 budgets, soit 2 mois"
+        else:
+            assert True == False
 
     def test_delete(self):
         tester = self.bgMod
