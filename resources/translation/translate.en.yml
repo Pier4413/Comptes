@@ -1,12 +1,18 @@
 en:
   init: "Init..."
   app_name: "Accounts"
-  accounts: "Accounts"
-  budgets: "Budgets"
   delete: "Delete"
   menubar:
     file:
       name: "&File"
       open_file: "&Open File"
   budget:
+    name: "Budget"
     add: "Add"
+  operation:
+    name: "Operation"
+    add: "Add"
+  account:
+    name: "Accounts"
+    add: "Add"
+  

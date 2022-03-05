@@ -147,10 +147,10 @@ class BudgetControl(object):
         try:
             ret = self.budgets.find_budget_from_id(id)
             if(ret is not None):
+                self.budgets.remove(ret["budget"])
                 self.budgetSql.delete(ret["budget"])
                 self.budgets_widget.delete_item(ret["index"])
             else:
                 Logger.get_instance().error(f"Budget avec id : {id} non trouve dans la liste pour suppression")
         except Exception as e:
             Logger.get_instance().error(f"Impossible de supprimer le budget avec l'id : {id}. Erreur complete : {e}")
-

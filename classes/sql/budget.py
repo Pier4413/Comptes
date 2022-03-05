@@ -1,3 +1,4 @@
+from sqlite3 import OperationalError
 from classes.sql.base import Base
 from classes.elements.budget import Budget as Modele
 
@@ -27,16 +28,18 @@ class Budget(object):
             :rtype: int
         """
         if(self.__conn is not None):
-            self.__conn.cur.execute('''CREATE TABLE budgets
-                (id INTEGER NOT NULL, 
-                libelle TEXT, 
-                initial REAL, 
-                courant REAL, 
-                depense REAL,
-                mois INTEGER,
-                annee INTEGER,
-                CONSTRAINT pk_budget PRIMARY KEY (id));''')
-
+            try:
+                self.__conn.cur.execute('''CREATE TABLE IF NOT EXISTS budgets
+                    (id INTEGER NOT NULL, 
+                    libelle TEXT, 
+                    initial REAL, 
+                    courant REAL, 
+                    depense REAL,
+                    mois INTEGER,
+                    annee INTEGER,
+                    CONSTRAINT pk_budget PRIMARY KEY (id));''')
+            except OperationalError as e:
+                raise(e)
             self.__conn.conn.commit()
             return 0
         else:

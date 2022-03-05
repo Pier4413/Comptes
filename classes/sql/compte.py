@@ -1,3 +1,4 @@
+from sqlite3 import OperationalError
 from classes.sql.base import Base
 from classes.elements.compte import Compte as Modele
 
@@ -28,12 +29,14 @@ class Compte(object):
             :raise: Une exception si la table ne peut etre creee
         """
         if(self.__conn is not None):
-            self.__conn.cur.execute('''CREATE TABLE comptes
-                (id INTEGER NOT NULL, 
-                libelle TEXT, 
-                solde REAL,
-                CONSTRAINT pk_comptes PRIMARY KEY (id));''')
-
+            try:
+                self.__conn.cur.execute('''CREATE TABLE IF NOT EXISTS comptes
+                    (id INTEGER NOT NULL, 
+                    libelle TEXT, 
+                    solde REAL,
+                    CONSTRAINT pk_comptes PRIMARY KEY (id));''')
+            except OperationalError as e:
+                raise(e)
             self.__conn.conn.commit()
             return 0
         else:

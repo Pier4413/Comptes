@@ -1,3 +1,4 @@
+from sqlite3 import OperationalError
 from classes.sql.base import Base
 from classes.elements.operation import Operation as Modele
 
@@ -27,19 +28,22 @@ class Operation(object):
             :rtype: int
         """
         if(self.__conn is not None):
-            self.__conn.cur.execute('''CREATE TABLE operations
-                (id INTEGER NOT NULL, 
-                libelle TEXT, 
-                montant REAL, 
-                budget INTEGER, 
-                compte INTEGER,
-                date INTEGER,
-                estValide INTEGER,
-                estVerrouille INTEGER,
-                recursivite CHAR DEFAULT NULL,
-                CONSTRAINT pk_operation PRIMARY KEY (id),
-                CONSTRAINT fk_budgetOperation FOREIGN KEY (budget) REFERENCES budget(id),
-                CONSTRAINT fk_compteOperation FOREIGN KEY (compte) REFERENCES compte(id));''')
+            try:
+                self.__conn.cur.execute('''CREATE TABLE IF NOT EXISTS operations
+                    (id INTEGER NOT NULL, 
+                    libelle TEXT, 
+                    montant REAL, 
+                    budget INTEGER, 
+                    compte INTEGER,
+                    date INTEGER,
+                    estValide INTEGER,
+                    estVerrouille INTEGER,
+                    recursivite CHAR DEFAULT NULL,
+                    CONSTRAINT pk_operation PRIMARY KEY (id),
+                    CONSTRAINT fk_budgetOperation FOREIGN KEY (budget) REFERENCES budget(id),
+                    CONSTRAINT fk_compteOperation FOREIGN KEY (compte) REFERENCES compte(id));''')
+            except OperationalError as e:
+                raise(e)
             self.__conn.conn.commit()
             return 0
         else:

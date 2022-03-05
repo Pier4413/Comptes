@@ -34,13 +34,13 @@ class Tabs(QTabWidget):
         self.change_size(x, y, width, height)
 
         self.comptes = CompteView()
-        self.addTab(self.comptes, i18n.t("translate.accounts"))
+        self.addTab(self.comptes, i18n.t("translate.account.name"))
 
         self.operations = OperationView()
-        self.addTab(self.operations, i18n.t("translate.operations"))
+        self.addTab(self.operations, i18n.t("translate.operation.name"))
 
         self.budgets = BudgetView()
-        self.addTab(self.budgets, i18n.t("translate.budgets"))
+        self.addTab(self.budgets, i18n.t("translate.budget.name"))
     
     def change_size(self, x : int, y : int, width: int, height: int):
         """
