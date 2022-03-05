@@ -1,5 +1,8 @@
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
+from classes.sql.compte import Compte as CompteSQL
+from classes.sql.budget import Budget as BudgetSQL
+from classes.sql.operation import Operation as OperationSQL
 
 def start_app(parameters : dict) -> None:
     """
@@ -22,6 +25,20 @@ def start_app(parameters : dict) -> None:
 
     # Load settings
     Settings.get_instance().load_settings(parameters["conf_file_name"])
+
+    compte_sql = CompteSQL(Settings.get_instance().get('Database', 'filename', 'comptes.db'))
+    budget_sql = BudgetSQL(Settings.get_instance().get('Database', 'filename', 'comptes.db'))
+    operation_sql = OperationSQL(Settings.get_instance().get('Database', 'filename', 'comptes.db'))
+
+    # Test de creation de la table
+    try:
+        compte_sql.create_table()
+        budget_sql.create_table()
+        operation_sql.create_table()
+    except Exception as e:
+        print("Could not create the table. Maybe it already exists"+str(e))
+    else:
+        print("Table created")
 
 def clean_up():
     pass
