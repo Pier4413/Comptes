@@ -1,8 +1,9 @@
 import i18n
 
 from PyQt6.QtCore import pyqtSignal, Qt
-from PyQt6.QtWidgets import QLineEdit, QLabel, QHBoxLayout, QWidget, QPushButton, QSizePolicy
+from PyQt6.QtWidgets import QLabel, QHBoxLayout, QWidget, QPushButton, QSizePolicy
 
+from views.line_edit import LineEdit
 from views.clickable_label import ClickableLabel
 
 from modules.logger.logger import Logger
@@ -84,7 +85,7 @@ class BudgetListWidgetItem(QWidget):
 
     def modify_libelle(self) -> None:
         """
-            Cette fonction transforme le label clickable de libelle en QLineEdit pour le modifier
+            Cette fonction transforme le label clickable de libelle en LineEdit pour le modifier
         """
         
         # On log l'evenement
@@ -94,18 +95,21 @@ class BudgetListWidgetItem(QWidget):
         self.h_box.removeWidget(self.libelle)
 
         # On cree le line edit
-        self.libelle = QLineEdit(self.libelle.text())
-        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.libelle.setFocus()
+        self.libelle = LineEdit(self.libelle.text())
+        self.libelle.focus_losed.connect(self.update_budget_libelle_f)
         self.libelle.editingFinished.connect(self.update_budget_libelle_f)
 
         # On l'insere a la place du label
         self.h_box.insertWidget(0, self.libelle, 3)
 
+        # Il faut necessairement donne le focus apres l'insertion de l'element dans le 
+        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.setFocus()
+
     def modify_init(self) -> None:
         """
-            Cette fonction transforme le label clickable de init en QLineEdit pour le modifier
+            Cette fonction transforme le label clickable de init en LineEdit pour le modifier
         """
         
         # On log l'evenement
@@ -115,14 +119,16 @@ class BudgetListWidgetItem(QWidget):
         self.h_box.removeWidget(self.init)
 
         # On cree le line edit
-        self.init = QLineEdit(self.init.text())
-        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.init.setFocus()
+        self.init = LineEdit(self.init.text())
+        self.init.focus_losed.connect(self.update_init_f)
         self.init.editingFinished.connect(self.update_init_f)
 
         # On l'insere a la place du label
         self.h_box.insertWidget(1, self.init, 2)
+
+        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
+        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.setFocus()
 
     def update_budget_libelle_f(self) -> None:
         """
