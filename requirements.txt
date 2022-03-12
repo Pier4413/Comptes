@@ -4,3 +4,4 @@ PyQt6
 pyyaml
 python-i18n
 python-dateutil
+deprecated

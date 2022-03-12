@@ -1,5 +1,6 @@
 from typing import List
 from PyQt6.QtWidgets import QWidget, QListWidget, QListWidgetItem
+from deprecated import deprecated
 
 class ListWidget(QListWidget):
     """
@@ -33,6 +34,7 @@ class ListWidget(QListWidget):
         temp.setSizeHint(item.minimumSizeHint())
         self.setItemWidget(temp, item)
 
+    @deprecated('Ne pas utiliser cette fonction mais plutôt add_item en faisant une boucle')
     def add_items(self, items : List[QWidget]) -> None:
         """
             Ajoute beaucoup d'items a la liste
@@ -52,13 +54,15 @@ class ListWidget(QListWidget):
         """
         self.takeItem(row)
 
+    @deprecated('Ne pas utiliser cette fonction mais plutôt delete_item en faisant une boucle')
     def clear_list(self) -> None:
         """
             Nettoie integralement la liste en la vidant
         """
         for i in range(self.count() - 1, -1, -1):
-            self.takeItem(i)
+            self.delete_item(i)
 
+    @deprecated('Cette fonction ne marche pas comme attendu. Elle est desactivee et ne fait rien')
     def update_items(self, new_items : List[QWidget]) -> None:
         """
             Remplace la liste courante par la nouvelle liste fournie en parametre
