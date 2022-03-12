@@ -9,6 +9,12 @@ en:
   budget:
     name: "Budget"
     add: "Add"
+    header:
+      label: "Name"
+      init: "Initial Value"
+      spend: "Spend Total"
+      current: "Remaining"
+      delete: "Delete the budget"
   operation:
     name: "Operation"
     add: "Add"
