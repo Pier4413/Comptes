@@ -7,6 +7,7 @@ from classes.sql.budget import Budget as BudgetSQL
 
 
 from views.fenetre_principale import FenetrePrincipale
+from views.budget.budget_list import BudgetListWidget
 from views.budget.list_item import BudgetListWidgetItem
 
 class BudgetControl(object):
@@ -27,6 +28,7 @@ class BudgetControl(object):
 
         # La liste des budgets       
         self.budgets = BudgetListModele()
+        self.budgets_items = BudgetListWidget()
 
         # Fonction d'initialisation des boutons et autres fonctionnalites
         self.init_controls()
@@ -40,6 +42,27 @@ class BudgetControl(object):
         """
         self.add_button.clicked.connect(self.add_a_budget)
 
+    def __append_budget(self, b : BudgetModele) -> None:
+        self.budgets.append(b)
+
+        # On cree le widget associe
+        budget_item = BudgetListWidgetItem(
+            id=b.id,
+            libelle=b.libelle,
+            montant_init=b.init,
+            montant_courant=b.courant,
+            montant_depense=b.depense
+        )
+
+        # Link des fonctions de traitement
+        budget_item.update_libelle.connect(self.update_budget_libelle) # Modification du libelle
+        budget_item.update_init.connect(self.update_budget_init) # Modification du montant initial
+        budget_item.delete_budget.connect(self.delete_budget) # Suppression du budget
+        self.budgets_items.append(budget_item)
+
+        # On ajoute l'element a liste d'affichage
+        self.budgets_widget.add_item(budget_item)
+
     def add_a_budget(self) -> None:
         """
             Ajoute un budget
@@ -50,26 +73,7 @@ class BudgetControl(object):
         # On le sauvegarde en base de donnees
         try:
             budget = self.budgetSql.save(budget)
-
-            # On l'ajoute a la liste de traitement
-            self.budgets.append(budget)
-
-            # On cree un widget pour l'affichage
-            budget_item = BudgetListWidgetItem(
-                id=budget.id,
-                libelle=budget.libelle,
-                montant_init=budget.init,
-                montant_courant=budget.courant,
-                montant_depense=budget.depense
-            )
-            
-            # On ajoute les fonctions sur modification du budget
-            budget_item.update_libelle.connect(self.update_budget_libelle) # Modification du libelle
-            budget_item.update_init.connect(self.update_budget_init) # Modification du montant initial
-            budget_item.delete_budget.connect(self.delete_budget) # Suppression du budget
-
-            # On ajoute l'item a la liste d'affichage
-            self.budgets_widget.add_item(budget_item)
+            self.__append_budget(budget)
         except Exception as e:
             Logger.get_instance().error(f"Probleme de sauvegarde de la base de donnees {e}")
 
@@ -80,24 +84,7 @@ class BudgetControl(object):
         budgets = self.budgetSql.select_all()
         for b in budgets:
             # On ajoute le budget a la liste des budgets
-            self.budgets.append(b)
-
-            # On cree le widget associe
-            budget_item = BudgetListWidgetItem(
-                id=b.id,
-                libelle=b.libelle,
-                montant_init=b.init,
-                montant_courant=b.courant,
-                montant_depense=b.depense
-            )
-
-            # Link des fonctions de traitement
-            budget_item.update_libelle.connect(self.update_budget_libelle) # Modification du libelle
-            budget_item.update_init.connect(self.update_budget_init) # Modification du montant initial
-            budget_item.delete_budget.connect(self.delete_budget) # Suppression du budget
-
-            # On ajoute l'element a liste d'affichage
-            self.budgets_widget.add_item(budget_item)
+            self.__append_budget(b)
 
     def update_budget_libelle(self, new_libelle : str, id : int) -> None:
         """
@@ -124,14 +111,23 @@ class BudgetControl(object):
             :type budget: BudgetModele
         """
         try:
+            # On met à jour le modele du budget et on fait la sauvegarde dans la base de donnees
             ret = self.budgets.find_budget_from_id(id)
             if(ret is not None):
                 ret["budget"].init = new_init
                 ret["budget"].recalcule_depense()
                 ret["budget"].recalcule_courant()
                 self.budgetSql.modify(ret["budget"])
+
+                # Une fois que c'est fait et si tout c'est bien passe alors on fait la modification graphique
+                list_item = self.budgets_items.find_by_id(id)
+                if(list_item is not None):
+                    list_item["budget"].depense.setText(str(ret["budget"].depense))
+                    list_item["budget"].restant.setText(str(ret["budget"].courant))
+                else:
+                    Logger.get_instance().error(f"Budget avec id : {id} non trouve dans la liste de vue pour modification montant init")
             else:
-                Logger.get_instance().error(f"Budget avec id : {id} non trouve dans la liste pour modification montant init")
+                Logger.get_instance().error(f"Budget avec id : {id} non trouve dans la liste de modele pour modification montant init")
         except Exception as e:
             Logger.get_instance().error(f"Impossible de mettre a jour le budget avec l'id : {id}. Erreur complete : {e}")
 
@@ -150,6 +146,10 @@ class BudgetControl(object):
                 self.budgets.remove(ret["budget"])
                 self.budgetSql.delete(ret["budget"])
                 self.budgets_widget.delete_item(ret["index"])
+
+                list_item = self.budgets_items.find_by_id(id)
+                if(list_item is not None):
+                    self.budgets_items.remove(list_item["budget"])
             else:
                 Logger.get_instance().error(f"Budget avec id : {id} non trouve dans la liste pour suppression")
         except Exception as e:
