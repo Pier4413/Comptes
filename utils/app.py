@@ -36,9 +36,9 @@ def start_app(parameters : dict) -> None:
         budget_sql.create_table()
         operation_sql.create_table()
     except Exception as e:
-        print("Could not create the table. Maybe it already exists"+str(e))
+        Logger.get_instance().error("Could not create the table. Maybe it already exists"+str(e))
     else:
-        print("Table created")
+        Logger.get_instance().debug("Table created if not exists")
 
 def clean_up():
     pass
