@@ -18,6 +18,7 @@ class BudgetControl(object):
         :date: 24 Fevrier 2022
         :version: 1.0
     """
+    
     def __init__(self, app : FenetrePrincipale) -> None:
         """
             Constructeur
