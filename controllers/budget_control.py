@@ -11,7 +11,13 @@ from views.budget.budget_list import BudgetListWidget
 from views.budget.list_item import BudgetListWidgetItem
 
 class BudgetControl(object):
+    """
+        Cette classe est le controlleur de la partie Budget de l'application
 
+        :author: Panda <panda@delmasweb.net>
+        :date: 24 Fevrier 2022
+        :version: 1.0
+    """
     def __init__(self, app : FenetrePrincipale) -> None:
         """
             Constructeur
@@ -43,6 +49,12 @@ class BudgetControl(object):
         self.add_button.clicked.connect(self.add_a_budget)
 
     def __append_budget(self, b : BudgetModele) -> None:
+        """
+            Cette fonction ajoute un budget dans les differents listes et dans la vue
+
+            :param b: Le modele du budget a ajouter
+            :type b: BudgetModele
+        """
         self.budgets.append(b)
 
         # On cree le widget associe
@@ -58,6 +70,8 @@ class BudgetControl(object):
         budget_item.update_libelle.connect(self.update_budget_libelle) # Modification du libelle
         budget_item.update_init.connect(self.update_budget_init) # Modification du montant initial
         budget_item.delete_budget.connect(self.delete_budget) # Suppression du budget
+
+        # On ajoute l'element a liste de traitement
         self.budgets_items.append(budget_item)
 
         # On ajoute l'element a liste d'affichage
@@ -65,7 +79,7 @@ class BudgetControl(object):
 
     def add_a_budget(self) -> None:
         """
-            Ajoute un budget
+            Crée un nouveau budget
         """
         # On cree le nouveau budget
         budget = BudgetModele(libelle="Nouveau budget", init=0, courant=0, depense=0)
