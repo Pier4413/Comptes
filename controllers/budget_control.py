@@ -1,3 +1,5 @@
+import i18n
+
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
@@ -9,6 +11,7 @@ from classes.sql.budget import Budget as BudgetSQL
 from views.fenetre_principale import FenetrePrincipale
 from views.budget.budget_list import BudgetListWidget
 from views.budget.list_item import BudgetListWidgetItem
+from views.budget.budget_header import BudgetHeaderItem
 
 class BudgetControl(object):
     """
@@ -47,6 +50,15 @@ class BudgetControl(object):
         """
             Cette fonction initialise les controles
         """
+        self.budgets_widget.add_item(BudgetHeaderItem(
+            headers=[
+                i18n.t('translate.budget.header.label'),
+                i18n.t('translate.budget.header.init'),
+                i18n.t('translate.budget.header.spend'),
+                i18n.t('translate.budget.header.current'),
+                i18n.t('translate.budget.header.delete')
+            ]
+        ))
         self.add_button.clicked.connect(self.add_a_budget)
 
     def __append_budget(self, b : BudgetModele) -> None:
