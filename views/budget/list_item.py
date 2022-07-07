@@ -8,6 +8,8 @@ from views.clickable_label import ClickableLabel
 
 from modules.logger.logger import Logger
 
+from views.budget import LIBELLE_EXPANSION, COURANT_EXPANSION, DEPENSE_EXPANSION, INIT_EXPANSION, SUPPR_EXPANSION, EXPANSION_POLICY, ALIGNEMENT_POLICY
+
 class BudgetListWidgetItem(QWidget):
     """
         Cette classe represente un item de la liste de budget
@@ -53,32 +55,41 @@ class BudgetListWidgetItem(QWidget):
         
         # Creation du libelle et dimensionnement
         self.libelle = ClickableLabel(libelle)
-        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.setStyleSheet('background-color: aqua')
+        self.libelle.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.libelle.setAlignment(ALIGNEMENT_POLICY())
         self.libelle.clicked.connect(self.modify_libelle)
         
         #Creation du montant initial
         self.init = ClickableLabel(str(montant_init))
-        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.setStyleSheet('background-color: red')
+        self.init.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.init.setAlignment(ALIGNEMENT_POLICY())
         self.init.clicked.connect(self.modify_init)
         
         # Creation du label de montant depense
         self.depense = QLabel(str(montant_depense))
+        self.depense.setStyleSheet('background-color: yellow')
+        self.depense.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.depense.setAlignment(ALIGNEMENT_POLICY())
 
         # Creation du label de montant restant
         self.restant = QLabel(str(montant_courant))
+        self.restant.setStyleSheet('background-color: blue')
+        self.restant.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.restant.setAlignment(ALIGNEMENT_POLICY())
 
         # Creation du bouton de suppression d'element
         self.delete = QPushButton(i18n.t("translate.delete"))
+        self.delete.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
         self.delete.clicked.connect(self.delete_budget_f)
 
         # On ajoute les widgets au layout avec des stretchs pour determiner leur taille
-        self.h_box.addWidget(self.libelle, 3)
-        self.h_box.addWidget(self.init, 2)
-        self.h_box.addWidget(self.depense,2)
-        self.h_box.addWidget(self.restant,2)
-        self.h_box.addWidget(self.delete,1)
+        self.h_box.addWidget(self.libelle, LIBELLE_EXPANSION())
+        self.h_box.addWidget(self.init, INIT_EXPANSION())
+        self.h_box.addWidget(self.depense, COURANT_EXPANSION())
+        self.h_box.addWidget(self.restant, DEPENSE_EXPANSION())
+        self.h_box.addWidget(self.delete, SUPPR_EXPANSION())
 
         # Puis on set le layout pour cet item
         self.setLayout(self.h_box)
@@ -103,8 +114,8 @@ class BudgetListWidgetItem(QWidget):
         self.h_box.insertWidget(0, self.libelle, 3)
 
         # Il faut necessairement donne le focus apres l'insertion de l'element dans le 
-        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.libelle.setAlignment(ALIGNEMENT_POLICY())
         self.libelle.setFocus()
 
     def modify_init(self) -> None:
@@ -126,8 +137,8 @@ class BudgetListWidgetItem(QWidget):
         # On l'insere a la place du label
         self.h_box.insertWidget(1, self.init, 2)
 
-        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.init.setAlignment(ALIGNEMENT_POLICY())
         self.init.setFocus()
 
     def update_budget_libelle_f(self) -> None:
@@ -142,8 +153,8 @@ class BudgetListWidgetItem(QWidget):
 
         # On cree le label
         self.libelle = ClickableLabel(self.libelle.text())
-        self.libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.libelle.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.libelle.setAlignment(ALIGNEMENT_POLICY())
         self.libelle.clicked.connect(self.modify_libelle)
 
         # On l'insere a la place du line edit
@@ -164,8 +175,8 @@ class BudgetListWidgetItem(QWidget):
 
         # On cree le label
         self.init = ClickableLabel(self.init.text())
-        self.init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        self.init.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.init.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        self.init.setAlignment(ALIGNEMENT_POLICY())
         self.init.clicked.connect(self.modify_init)
 
         # On l'insere a la place du line edit

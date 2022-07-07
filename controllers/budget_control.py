@@ -6,6 +6,7 @@ from modules.settings.settings import Settings
 from classes.elements.budget import Budget as BudgetModele
 from classes.elements.buget_list import BudgetList as BudgetListModele
 from classes.sql.budget import Budget as BudgetSQL
+from views import budget
 
 
 from views.fenetre_principale import FenetrePrincipale
@@ -89,6 +90,8 @@ class BudgetControl(object):
 
         # On ajoute l'element a liste d'affichage
         self.budgets_widget.add_item(budget_item)
+
+        print(str(b))
 
     def add_a_budget(self) -> None:
         """

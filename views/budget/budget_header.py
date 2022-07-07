@@ -2,6 +2,8 @@ from typing import List
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QLabel, QWidget, QSizePolicy, QHBoxLayout
 
+from views.budget import LIBELLE_EXPANSION, COURANT_EXPANSION, DEPENSE_EXPANSION, INIT_EXPANSION, SUPPR_EXPANSION, EXPANSION_POLICY, ALIGNEMENT_POLICY
+
 class BudgetHeaderItem(QWidget):
     """
         Cette classe est l'en-tete du tableau
@@ -21,34 +23,40 @@ class BudgetHeaderItem(QWidget):
         h_box = QHBoxLayout(self)
 
         if(len(headers) != 5):
-            raise Exception("La taille de l'en-tete des budgets ne correspond pas")
+            raise Exception("La taille de l'en-tete des budgets ne correspond pas. Attendu 5")
         
+        # self.
         # On commence par le libelle
         libelle = QLabel(headers[0])
-        libelle.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        libelle.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        h_box.addWidget(libelle, 3)
+        libelle.setStyleSheet('background-color: aqua')
+        libelle.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        libelle.setAlignment(ALIGNEMENT_POLICY())
+        h_box.addWidget(libelle, LIBELLE_EXPANSION())
 
         # Puis le init
         init = QLabel(headers[1])
-        init.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        init.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        h_box.addWidget(init, 2)
+        init.setStyleSheet('background-color: red')
+        init.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        init.setAlignment(ALIGNEMENT_POLICY())
+        h_box.addWidget(init, INIT_EXPANSION())
 
         # Puis la depense
         depense = QLabel(headers[2])
-        depense.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        depense.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        h_box.addWidget(depense, 2)
+        depense.setStyleSheet('background-color: yellow')
+        depense.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        depense.setAlignment(ALIGNEMENT_POLICY())
+        h_box.addWidget(depense, DEPENSE_EXPANSION())
 
         # Puis le courant
         courant = QLabel(headers[3])
-        courant.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        courant.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        h_box.addWidget(courant, 2)
+        courant.setStyleSheet('background-color: blue')
+        courant.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        courant.setAlignment(ALIGNEMENT_POLICY())
+        h_box.addWidget(courant, COURANT_EXPANSION())
 
         # Puis la suppression
         suppr = QLabel(headers[4])
-        suppr.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-        suppr.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        h_box.addWidget(suppr, 2)
+        suppr.setStyleSheet('background-color: pink')
+        suppr.setSizePolicy(EXPANSION_POLICY(), EXPANSION_POLICY())
+        suppr.setAlignment(ALIGNEMENT_POLICY())
+        h_box.addWidget(suppr, SUPPR_EXPANSION())
