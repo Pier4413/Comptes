@@ -3,6 +3,7 @@ en:
   app_name: "Accounts"
   accounts: "Accounts"
   budgets: "Budgets"
+  operation : "Settlements"
   delete: "Delete"
   menubar:
     file:
@@ -10,6 +11,10 @@ en:
       open_file: "&Open File"
   budget:
     add: "Add"
+  account:
+    add: "Add an account"
+  operation:
+    add: "Add a settlement"
 
     
     

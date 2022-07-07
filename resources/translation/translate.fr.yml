@@ -3,6 +3,7 @@ fr:
   app_name: "Comptes"
   accounts: "Comptes"
   budgets: "Budgets"
+  operations : "Opérations"
   delete: "Supprimer"
   menubar:
     file:
@@ -10,3 +11,7 @@ fr:
       open_file: "&Ouvrir"
   budget:
     add: "Ajouter"
+  account:
+    add: "Ajouter un compte"
+  operation:
+    add: "Ajouter une opération"

@@ -36,8 +36,8 @@ class Tabs(QTabWidget):
         self.comptes = CompteView()
         self.addTab(self.comptes, i18n.t("translate.accounts"))
 
-        self.operations = OperationView()
-        self.addTab(self.operations, i18n.t("translate.operations"))
+        self.operation = OperationView()
+        self.addTab(self.operation, i18n.t("translate.operations"))
 
         self.budgets = BudgetView()
         self.addTab(self.budgets, i18n.t("translate.budgets"))

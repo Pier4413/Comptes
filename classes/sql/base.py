@@ -2,7 +2,7 @@ import sqlite3
 
 class Base(object):
     """
-        Cette classe a pour but de faire les operations de base SQL
+        Cette classe a pour but de faire les operation de base SQL
 
         :author: Panda <panda@delmasweb.net>
         :date: 20 Fevrier 2022

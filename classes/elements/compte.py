@@ -12,7 +12,7 @@ class Compte(object):
     :version: 1.0 
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operations : List[Operation] = list()) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operation : List[Operation] = list()) -> None:
         """
         Construction
 
@@ -22,13 +22,13 @@ class Compte(object):
         :type libelle: str 
         :param solde: Optional ; Default : ""; Le solde du compte
         :type solde: float
-        :param operations: Optional ; Default : list(); La liste des operations du compte
-        :type operations: list
+        :param operation: Optional ; Default : list(); La liste des operation du compte
+        :type operation: list
         """
         self.id = id
         self.libelle = libelle
         self.solde = solde
-        self.operations = operations
+        self.operation = operation
     
     def __str__(self) -> str:
         """
@@ -37,12 +37,12 @@ class Compte(object):
         :return: Retourne le contenu des attributs sous format texte
         :rtype: str
         """
-        return f"Id : [{self.id}], Libelle : [{self.libelle}], Solde : [{self.solde}], Operations : [{self.operations}]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Solde : [{self.solde}], Operation : [{self.operation}]"
 
     def recalcule_solde(self) -> str:
         """
             Cette fonction recalcule le solde disponible
         """
-        for o in self.operations:
+        for o in self.operation:
             self.solde = self.solde + o.montant
         self.solde = round(self.solde, 2)

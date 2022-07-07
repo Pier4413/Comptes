@@ -28,5 +28,5 @@ class CompteView(QWidget):
         
         self.gridLayout.addWidget(self.comptes, 1, 0, 1, 10)
 
-        self.add_button = QPushButton(i18n.t("translate.compte.add"))
+        self.add_button = QPushButton(i18n.t("translate.account.add"))
         self.gridLayout.addWidget(self.add_button, 0, 9, 1, 1)    

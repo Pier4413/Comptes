@@ -63,7 +63,7 @@ class CompteControl(object):
             
             # On ajoute les fonctions sur modification du compte
             compte_item.update_libelle.connect(self.update_compte_libelle) # Modification du libelle
-            compte_item.update_init.connect(self.update_compte_init) # Modification du solde
+            compte_item.update_solde.connect(self.update_compte_solde) # Modification du solde
             compte_item.delete_compte.connect(self.delete_compte) # Suppression du compte
 
             # On ajoute l'item a la liste d'affichage
@@ -89,7 +89,7 @@ class CompteControl(object):
 
             # Link des fonctions de traitement
             compte_item.update_libelle.connect(self.update_compte_libelle) # Modification du libelle
-            compte_item.update_solde.connect(self.update_solde) # Modification du solde
+            compte_item.update_solde.connect(self.update_compte_solde) # Modification du solde
             compte_item.delete_compte.connect(self.delete_compte) # Suppression du compte
 
             # On ajoute l'element a liste d'affichage
@@ -112,7 +112,7 @@ class CompteControl(object):
         except Exception as e:
             Logger.get_instance().error(f"Impossible de mettre a jour le compte avec l'id : {id}. Erreur complete : {e}")
 
-    def update_solde(self, new_solde : float, id : int) -> None:
+    def update_compte_solde(self, new_solde : float, id : int) -> None:
         """
             Cette fonction est appelle lorsqu'un compte est modifie et fait une sauvegarde dans la base de donnees
 
@@ -141,6 +141,7 @@ class CompteControl(object):
         try:
             ret = self.comptes.find_compte_from_id(id)
             if(ret is not None):
+                self.comptes.remove(ret["compte"])
                 self.compteSql.delete(ret["compte"])
                 self.comptes_widget.delete_item(ret["index"])
             else:

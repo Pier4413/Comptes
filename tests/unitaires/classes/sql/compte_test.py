@@ -45,10 +45,10 @@ class TestCompteSQL():
         assert ret.libelle == "TestII", "Attendu : TestII"
 
     def test_select_all(self):
-        operations = self.cptSql.select_all()
+        operation = self.cptSql.select_all()
 
-        if(len(operations) == 1):
-            assert operations[0].id == 1, "Attendu : 1" # On recupere le premier element de la base de donnees temporaire
+        if(len(operation) == 1):
+            assert operation[0].id == 1, "Attendu : 1" # On recupere le premier element de la base de donnees temporaire
         else:
             assert True == False # Le test est echoue si on a rien dans la base de donnees par definition
 

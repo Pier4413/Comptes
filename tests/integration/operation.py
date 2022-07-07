@@ -42,9 +42,9 @@ if __name__=="__main__":
         print(f"Modification reussie")
 
     # Test de recuperation dans la base de donnees
-    operations = operation_sql.select_all()
+    operation = operation_sql.select_all()
 
-    for o in operations:
+    for o in operation:
         print(f"Retrouvee : {o}")
 
     # Test de suppression

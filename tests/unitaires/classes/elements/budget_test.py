@@ -36,7 +36,7 @@ class TestBudget():
         assert self.budget.depense == 3, "Attendu : 3"
 
     def test_recalcule_depense(self):
-        self.budget.operations = [
+        self.budget.operation = [
             Operation(montant=-10),
             Operation(montant=-20)
         ]

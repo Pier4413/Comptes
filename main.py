@@ -1,12 +1,12 @@
 import sys
 import i18n
-from controllers.compte_control import CompteControl
 
 from modules.logger.logger import Logger
 from modules.settings.settings import Settings
 
 from PyQt6.QtWidgets import QApplication
 from controllers.budget_control import BudgetControl
+from controllers.operation_control import OperationControl
 from controllers.compte_control import CompteControl
 
 from views.fenetre_principale import FenetrePrincipale
@@ -43,6 +43,9 @@ if __name__=="__main__":
 
     # Controleur pour les comptes
     CompteControl = CompteControl(ex)
+
+    # Controleur pour les opérations
+    OperationControl = OperationControl(ex)
 
     # Controleur pour les budgets
     budgetControl  = BudgetControl(ex)

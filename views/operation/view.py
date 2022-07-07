@@ -24,9 +24,9 @@ class OperationView(QWidget):
 
         self.gridLayout = QGridLayout(self)
 
-        self.operations = ListWidget()
+        self.operation = ListWidget()
         
-        self.gridLayout.addWidget(self.operations, 1, 0, 1, 10)
+        self.gridLayout.addWidget(self.operation, 1, 0, 1, 10)
 
         self.add_button = QPushButton(i18n.t("translate.operation.add"))
         self.gridLayout.addWidget(self.add_button, 0, 9, 1, 1) 

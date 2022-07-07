@@ -28,7 +28,7 @@ class TestCompte():
         assert self.compte.solde == -6.66, "Attendu : -6.66"
 
     def test_recalcule_solde(self):
-        self.compte.operations = [
+        self.compte.operation = [
             Operation(montant=-2),
             Operation(montant=-8.3),
             Operation(montant=10)

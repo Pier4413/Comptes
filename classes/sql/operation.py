@@ -21,7 +21,7 @@ class Operation(object):
 
     def create_table(self) -> int:
         """
-            Cette methode cree la table des operations dans la base de donnees
+            Cette methode cree la table des operation dans la base de donnees
 
             :return: Un code de retour 0 : OK
             :rtype: int
@@ -53,7 +53,7 @@ class Operation(object):
         """
         if(self.__conn is not None):
             
-            operations = self.select_all()
+            operation = self.select_all()
 
             self.__conn.cur.execute('''
                 DROP TABLE operations;
@@ -61,7 +61,7 @@ class Operation(object):
 
             self.create_table()
 
-            for o in operations:
+            for o in operation:
                 self.save(o)
 
     def save(self, operation : Modele) -> Modele:
@@ -139,15 +139,15 @@ class Operation(object):
 
     def select_all(self) -> list():
         """
-            Cette methode recupere la liste de tous les operations dans la base de donnees et la renvoi sous la forme d'une liste de modeles
+            Cette methode recupere la liste de tous les operation dans la base de donnees et la renvoi sous la forme d'une liste de modeles
         
-            :return: Retourne les operations retrouves dans la base
+            :return: Retourne les operation retrouves dans la base
             :rtype: list
         """
         if(self.__conn is not None):
-            operations = list()
+            operation = list()
             for row in self.__conn.cur.execute('''SELECT * FROM operations'''):
-                operations.append(Modele(
+                operation.append(Modele(
                     id=row[0],
                     libelle=row[1],
                     montant=row[2],
@@ -158,7 +158,7 @@ class Operation(object):
                     est_verrouille=True if(row[7]==1) else False,
                     recursivite=row[8]
                 ))
-            return operations
+            return operation
         else:
             return list()
 

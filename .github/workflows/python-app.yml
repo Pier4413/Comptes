@@ -2,7 +2,7 @@ name: Comptes
 
 on:
   push:
-    branches: [ ihm, comptes, operations, budgets ]
+    branches: [ ihm, comptes, operation, budgets ]
   pull_request:
     branches: [ main ]
 

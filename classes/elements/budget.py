@@ -10,7 +10,7 @@ class Budget(object):
         :version: 1.0
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", init : float = 0, courant : float = 0, depense : float = 0, operations : List[Operation] = list()) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", init : float = 0, courant : float = 0, depense : float = 0, operation : List[Operation] = list()) -> None:
         """
             Constructeur
 
@@ -24,25 +24,25 @@ class Budget(object):
             :type courant: float
             :param depense: Optional; Default : 0; Le montant qui a ete depense
             :type depense: float
-            :param operations: Optional; Default : list(); La liste des operations associes a ce budget
-            :type operations: list
+            :param operation: Optional; Default : list(); La liste des operation associes a ce budget
+            :type operation: list
         """
         self.id = id
         self.libelle = libelle
         self.init = init
         self.courant = courant
         self.depense = depense
-        self.operations = operations
+        self.operation = operation
 
     def __str__(self) -> str:
-        return f"Id : [{self.id}], Libelle : [{self.libelle}], Init : [{self.init}], Courant : [{self.courant}], Depense : [{self.depense}], Operations : [{self.operations}]"
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Init : [{self.init}], Courant : [{self.courant}], Depense : [{self.depense}], Operation : [{self.operation}]"
 
     def recalcule_depense(self) -> None:
         """
             Cette fonction recalcule le montant depense sur un budget
         """
-        for o in self.operations:
-            self.depense = self.depense - o.montant # On met un moins car nous on cherche a savoir ce qui a ete depense (donc une valeur positive) mais les operations sont en valeur absolue (i.e < 0 : Debit, >=0 Credit )
+        for o in self.operation:
+            self.depense = self.depense - o.montant # On met un moins car nous on cherche a savoir ce qui a ete depense (donc une valeur positive) mais les operation sont en valeur absolue (i.e < 0 : Debit, >=0 Credit )
 
     def recalcule_courant(self) -> None:
         """

@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     # Test de mise a jour dans la table
     compte.solde = 150.00
-    compte.operations = list()
+    compte.operation = list()
 
     try:
         compte = compte_sql.modify(compte)

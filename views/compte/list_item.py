@@ -83,7 +83,7 @@ class CompteListWidgetItem(QWidget):
         Logger.get_instance().debug(f"Solde du compte mis a jour : {self.solde.text()}")
 
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_init.emit(float(self.solde.text()), self.id)
+        self.update_solde.emit(float(self.solde.text()), self.id)
 
     def delete_compte_f(self) -> None:
         """
