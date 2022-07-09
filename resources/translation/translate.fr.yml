@@ -5,6 +5,8 @@ fr:
   budgets: "Budgets"
   operations : "Opérations"
   delete: "Supprimer"
+  valide: "Valider"
+  verrouille: "Vérouiller"
   menubar:
     file:
       name: "&Fichier"

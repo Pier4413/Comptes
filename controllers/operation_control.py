@@ -53,7 +53,7 @@ class OperationControl(object):
             Ajoute une operation
         """
         # On cree la nouvelle operation
-        operation = OperationModele(libelle="Nouvelle operation",montant=0)
+        operation = OperationModele(libelle="Nouvelle operation",montant=0,est_valide=False,est_verrouille=False)
         self.read_all_budget()
         self.read_all_compte()
         # On le sauvegarde en base de donnees
@@ -75,8 +75,8 @@ class OperationControl(object):
             operation_item.update_montant.connect(self.update_operation_montant) # Modification du solde
             operation_item.update_compte.connect(self.update_operation_compte) # Modification du compte
             operation_item.update_budget.connect(self.update_operation_budget) # Modification du budget
-            #operation_item.valide_operation.connect(self.delete_operation) # Validation de l'operation
-            #operation_item.verrouille_operation.connect(self.delete_operation) # Verrouillage de l'operation           
+            operation_item.valide_operation.connect(self.valide_operation) # Validation de l'operation
+            operation_item.verouille_operation.connect(self.verouille_operation) # Verrouillage de l'operation           
             operation_item.delete_operation.connect(self.delete_operation) # Suppression de l'operation
 
             for c in self.comptes: 
@@ -106,7 +106,9 @@ class OperationControl(object):
             operation_item = OperationListWidgetItem(
                 id=b.id,
                 libelle=b.libelle,
-                montant=b.montant
+                montant=b.montant,
+                est_valide=b.est_valide,
+                est_verouille=b.est_verrouille
             )
 
             # Link des fonctions de traitement
@@ -125,8 +127,8 @@ class OperationControl(object):
             operation_item.update_budget.connect(self.update_operation_budget) # Modification du budget
             operation_item.update_libelle.connect(self.update_operation_libelle) # Modification du libelle
             operation_item.update_montant.connect(self.update_operation_montant) # Modification du solde
-            #operation_item.valide_operation.connect(self.valide_operation) # Validation d'operation
-            #operation_item.verrouille_operation.connect(self.verrouille_operation) # Verrouillage d'operation
+            operation_item.valide_operation.connect(self.valide_operation) # Validation d'operation
+            operation_item.verouille_operation.connect(self.verouille_operation) # Verrouillage d'operation
             operation_item.delete_operation.connect(self.delete_operation) # Suppression d'operation
 
             # On ajoute l'element a liste d'affichage
@@ -234,9 +236,27 @@ class OperationControl(object):
         try:
             ret = self.operations.find_operation_from_id(id)
             if(ret is not None):
-                self.operations.remove(ret["operation"])
-                self.operationSql.delete(ret["operation"])
-                self.operations_widget.delete_item(ret["index"])
+                ret["operation"].est_valide = True
+                self.operationSql.modify(ret["operation"])
+            else:
+                Logger.get_instance().error(f"Operation avec id : {id} non trouve dans la liste pour suppression")
+        except Exception as e:
+            Logger.get_instance().error(f"Impossible de supprimer l'operation avec l'id : {id}. Erreur complete : {e}")
+
+    def verouille_operation(self, id : int) -> None:
+        """
+            Cette fonction est appelle lorsqu'un operation est modifie et fait la sauvegarde en base de donnees en plus de supprimer de la liste
+
+            :param compte: L'identifiant du compte a supprimer
+            :type compte: OperationModele
+            :param row_pos: La position de la ligne a supprimer
+            :type row_pos: int
+        """
+        try:
+            ret = self.operations.find_operation_from_id(id)
+            if(ret is not None):
+                ret["operation"].est_verrouille = True
+                self.operationSql.modify(ret["operation"])
             else:
                 Logger.get_instance().error(f"Operation avec id : {id} non trouve dans la liste pour suppression")
         except Exception as e:

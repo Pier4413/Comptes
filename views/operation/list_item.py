@@ -51,7 +51,7 @@ class OperationListWidgetItem(QWidget):
     """
     valide_operation = pyqtSignal(int)
 
-    def __init__(self, parent : QWidget = None, id : int = 0, libelle : str = None, montant : float = 0, compte : int = 0, budget : int = 0):
+    def __init__(self, parent : QWidget = None, id : int = 0, libelle : str = None, montant : float = 0, compte : int = 0, budget : int = 0, est_valide : bool = False, est_verouille : bool = False):
         """
             Constructeur
 
@@ -69,30 +69,43 @@ class OperationListWidgetItem(QWidget):
 
         # On cree les widgets
         self.id = id
-        self.libelle = QLineEdit(libelle)
+        if est_verouille:
+            self.libelle = QLabel(libelle)
+            self.montant = QLabel(str(montant))
+        else:
+            self.libelle = QLineEdit(libelle)
+            self.montant = QLineEdit(str(montant))
+            self.verrouille = QPushButton(i18n.t("translate.verrouille"))
+            
+        
         self.compte = QComboBox(None)
         self.budget = QComboBox(None)
-        self.montant = QLineEdit(str(montant))
-        self.valide = QPushButton(i18n.t("translate.valide"))
-        self.verrouille = QPushButton(i18n.t("translate.verrouille"))
+        if est_valide:
+            self.valide = QLabel(i18n.t("translate.valide"))
+        else:
+            self.valide = QPushButton(i18n.t("translate.valide"))
         self.delete = QPushButton(i18n.t("translate.delete"))
 
         # On ajoute les evenements necessaire
-        self.libelle.editingFinished.connect(self.update_operation_libelle_f)
-        self.montant.editingFinished.connect(self.update_montant_f)
-        self.compte.currentIndexChanged.connect(self.update_compte_f)
-        self.budget.currentIndexChanged.connect(self.update_budget_f)
-        self.valide.clicked.connect(self.valide_operation_f)
-        self.verrouille.clicked.connect(self.verrouille_operation_f)
-        self.delete.clicked.connect(self.delete_operation_f)
+        if not est_verouille:
+            self.libelle.editingFinished.connect(self.update_operation_libelle_f)
+            self.montant.editingFinished.connect(self.update_montant_f)
+            self.compte.currentIndexChanged.connect(self.update_compte_f)
+            self.budget.currentIndexChanged.connect(self.update_budget_f)
+            self.verrouille.clicked.connect(self.verrouille_operation_f)
+            self.delete.clicked.connect(self.delete_operation_f)
+        if not est_valide:
+            self.valide.clicked.connect(self.valide_operation_f)
 
         # On ajoute les widgets au layout
         self.h_box.addWidget(self.compte)
         self.h_box.addWidget(self.budget)
         self.h_box.addWidget(self.libelle)
         self.h_box.addWidget(self.montant)
-        self.h_box.addWidget(self.valide)
-        self.h_box.addWidget(self.verrouille)
+        if not est_valide:
+            self.h_box.addWidget(self.valide)
+        if not est_verouille:
+            self.h_box.addWidget(self.verrouille)
         self.h_box.addWidget(self.delete)
 
         # Puis on set le layout pour cet item

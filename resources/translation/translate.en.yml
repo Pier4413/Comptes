@@ -5,6 +5,8 @@ en:
   budgets: "Budgets"
   operation : "Settlements"
   delete: "Delete"
+  valide: "Validate"
+  verrouille: "Lock"
   menubar:
     file:
       name: "&File"
