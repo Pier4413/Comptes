@@ -76,7 +76,13 @@ class Compte(object):
         if(self.__conn is not None):
 
             if(compte.id > 0):
-                result = self.__conn.cur.execute('''UPDATE comptes SET libelle=?,solde=?''', [compte.libelle, compte.solde])
+                result = self.__conn.cur.execute('''UPDATE comptes SET 
+                    libelle=?
+                    ,solde=?
+                    WHERE id=?''',
+                    [compte.libelle, 
+                    compte.solde, 
+                    compte.id])
 
                 if(result.rowcount > 0):
                     self.__conn.conn.commit()

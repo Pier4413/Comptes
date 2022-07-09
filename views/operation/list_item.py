@@ -51,11 +51,6 @@ class OperationListWidgetItem(QWidget):
     """
     valide_operation = pyqtSignal(int)
 
-    """
-        pyqtSignal a envoye quand on deroule les comptes disponibles
-    """
-    read_all_compte = pyqtSignal()
-
     def __init__(self, parent : QWidget = None, id : int = 0, libelle : str = None, montant : float = 0, compte : int = 0, budget : int = 0):
         """
             Constructeur
@@ -76,7 +71,6 @@ class OperationListWidgetItem(QWidget):
         self.id = id
         self.libelle = QLineEdit(libelle)
         self.compte = QComboBox(None)
-        self.compte.addItem("translate.choose")
         self.budget = QComboBox(None)
         self.montant = QLineEdit(str(montant))
         self.valide = QPushButton(i18n.t("translate.valide"))
@@ -87,7 +81,6 @@ class OperationListWidgetItem(QWidget):
         self.libelle.editingFinished.connect(self.update_operation_libelle_f)
         self.montant.editingFinished.connect(self.update_montant_f)
         self.compte.currentIndexChanged.connect(self.update_compte_f)
-        self.compte.activated.connect(self.read_all_compte_f)
         self.budget.currentIndexChanged.connect(self.update_budget_f)
         self.valide.clicked.connect(self.valide_operation_f)
         self.verrouille.clicked.connect(self.verrouille_operation_f)
@@ -123,27 +116,27 @@ class OperationListWidgetItem(QWidget):
         Logger.get_instance().debug(f"Montant d'operation mis a jour : {self.montant.text()}")
 
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_init.emit(float(self.montant.text()), self.id)
+        self.update_montant.emit(float(self.montant.text()), self.id)
 
     def update_compte_f(self) -> None:
         """
             Cette fonction met a jour l'operation avec le nouveau compte
         """
         # On ecrit un log pour le debug
-        Logger.get_instance().debug(f"Compte d'operation mis a jour : {self.compte.text()}")
+        Logger.get_instance().debug(f"Compte d'operation mis a jour : {self.compte.currentIndex()}")
 
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_init.emit(float(self.compte.text()), self.id)
+        self.update_compte.emit(self.compte.currentIndex(), self.id)
 
     def update_budget_f(self) -> None:
         """
             Cette fonction met a jour l'operation avec le nouveau budget
         """
         # On ecrit un log pour le debug
-        Logger.get_instance().debug(f"Budget d'operation mis a jour : {self.compte.text()}")
+        Logger.get_instance().debug(f"Budget d'operation mis a jour : {self.compte.currentIndex()}")
 
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
-        self.update_init.emit(float(self.budget.text()), self.id)
+        self.update_budget.emit(self.budget.currentIndex(), self.id)
 
     def valide_operation_f(self) -> None:
         """
@@ -165,10 +158,3 @@ class OperationListWidgetItem(QWidget):
         """
         # On emet l'evenement de suppression pour la base de donnees
         self.delete_operation.emit(self.id)
-
-    def read_all_compte_f(self) -> None:
-        """
-           Cette fonction recupere la liste des comptes
-        """
-
-        self.read_all_compte.emit()
