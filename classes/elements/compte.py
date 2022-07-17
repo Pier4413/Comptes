@@ -1,4 +1,5 @@
 from typing import List
+from xmlrpc.client import boolean
 
 from classes.elements.operation import Operation
 
@@ -12,7 +13,7 @@ class Compte(object):
     :version: 1.0 
     """
 
-    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0,operation : List[Operation] = list()) -> None:
+    def __init__(self, id : int = -1, libelle : str = "", solde : float = 0, est_archive : boolean = False) -> None:
         """
         Construction
 
@@ -22,13 +23,13 @@ class Compte(object):
         :type libelle: str 
         :param solde: Optional ; Default : ""; Le solde du compte
         :type solde: float
-        :param operation: Optional ; Default : list(); La liste des operation du compte
-        :type operation: list
+        :param est_archive: Optional ; Default : False; Si l'operation a ete archive ou non
+        :type est_archive: boolean
         """
         self.id = id
         self.libelle = libelle
         self.solde = solde
-        self.operation = operation
+        self.est_archive = est_archive
     
     def __str__(self) -> str:
         """
@@ -37,12 +38,4 @@ class Compte(object):
         :return: Retourne le contenu des attributs sous format texte
         :rtype: str
         """
-        return f"Id : [{self.id}], Libelle : [{self.libelle}], Solde : [{self.solde}], Operation : [{self.operation}]"
-
-    def recalcule_solde(self) -> str:
-        """
-            Cette fonction recalcule le solde disponible
-        """
-        for o in self.operation:
-            self.solde = self.solde + o.montant
-        self.solde = round(self.solde, 2)
+        return f"Id : [{self.id}], Libelle : [{self.libelle}], Solde : [{self.solde}], Archive : [{self.est_archive}]"

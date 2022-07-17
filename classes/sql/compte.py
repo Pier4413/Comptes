@@ -32,6 +32,7 @@ class Compte(object):
                 (id INTEGER NOT NULL, 
                 libelle TEXT, 
                 solde REAL,
+                estArchive INTEGER,
                 CONSTRAINT pk_comptes PRIMARY KEY (id));''')
 
             self.__conn.conn.commit()
@@ -52,7 +53,8 @@ class Compte(object):
         if(self.__conn is not None):
             result = self.__conn.cur.execute('''INSERT INTO comptes(
                 libelle,
-                solde) VALUES(?, ?)''', [compte.libelle, compte.solde])
+                solde,
+                estArchive) VALUES(?, ?, ?)''', [compte.libelle, compte.solde,1 if(compte.est_archive) else 0])
 
             if(result.rowcount > 0):
                 self.__conn.conn.commit()
@@ -79,10 +81,13 @@ class Compte(object):
                 result = self.__conn.cur.execute('''UPDATE comptes SET 
                     libelle=?
                     ,solde=?
+                    ,estArchive=?
                     WHERE id=?''',
                     [compte.libelle, 
                     compte.solde, 
-                    compte.id])
+                    1 if(compte.est_archive) else 0,
+                    compte.id
+                    ])
 
                 if(result.rowcount > 0):
                     self.__conn.conn.commit()
@@ -107,7 +112,8 @@ class Compte(object):
                 comptes.append(Modele(
                     id=row[0],
                     libelle=row[1],
-                    solde=row[2]
+                    solde=row[2],
+                    est_archive=True if(row[3]==1) else False,
                 ))
             return comptes
         else:

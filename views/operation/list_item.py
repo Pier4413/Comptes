@@ -80,9 +80,7 @@ class OperationListWidgetItem(QWidget):
         
         self.compte = QComboBox(None)
         self.budget = QComboBox(None)
-        if est_valide:
-            self.valide = QLabel(i18n.t("translate.valide"))
-        else:
+        if not est_valide:
             self.valide = QPushButton(i18n.t("translate.valide"))
         self.delete = QPushButton(i18n.t("translate.delete"))
 
@@ -94,6 +92,7 @@ class OperationListWidgetItem(QWidget):
             self.budget.currentIndexChanged.connect(self.update_budget_f)
             self.verrouille.clicked.connect(self.verrouille_operation_f)
             self.delete.clicked.connect(self.delete_operation_f)
+
         if not est_valide:
             self.valide.clicked.connect(self.valide_operation_f)
 
@@ -164,6 +163,7 @@ class OperationListWidgetItem(QWidget):
         """
         # On emet l'evenement de suppression pour la base de donnees
         self.verouille_operation.emit(self.id)
+        
 
     def delete_operation_f(self) -> None:
         """

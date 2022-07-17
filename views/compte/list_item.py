@@ -28,7 +28,7 @@ class CompteListWidgetItem(QWidget):
     """
         pyqtSignal a envoye quand on supprime un compte
     """
-    delete_compte = pyqtSignal(int)
+    archive_compte = pyqtSignal(int)
 
     def __init__(self, parent : QWidget = None, id : int = 0, libelle : str = None, solde : float = 0):
         """
@@ -50,17 +50,17 @@ class CompteListWidgetItem(QWidget):
         self.id = id
         self.libelle = QLineEdit(libelle)
         self.solde = QLineEdit(str(solde))
-        self.delete = QPushButton(i18n.t("translate.delete"))
+        self.archive = QPushButton(i18n.t("translate.delete"))
 
         # On ajoute les evenements necessaire
         self.libelle.editingFinished.connect(self.update_compte_libelle_f)
         self.solde.editingFinished.connect(self.update_solde_f)
-        self.delete.clicked.connect(self.delete_compte_f)
+        self.archive.clicked.connect(self.archive_compte_f)
 
         # On ajoute les widgets au layout
         self.h_box.addWidget(self.libelle)
         self.h_box.addWidget(self.solde)
-        self.h_box.addWidget(self.delete)
+        self.h_box.addWidget(self.archive)
 
         # Puis on set le layout pour cet item
         self.setLayout(self.h_box)
@@ -85,9 +85,9 @@ class CompteListWidgetItem(QWidget):
         # On emet un evenement remonter l'information au parent s'ils le souhaitent
         self.update_solde.emit(float(self.solde.text()), self.id)
 
-    def delete_compte_f(self) -> None:
+    def archive_compte_f(self) -> None:
         """
             Cette fonction efface un compte
         """
         # On emet l'evenement de suppression pour la base de donnees
-        self.delete_compte.emit(self.id)
+        self.archive_compte.emit(self.id)

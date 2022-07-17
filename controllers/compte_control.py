@@ -64,7 +64,7 @@ class CompteControl(object):
             # On ajoute les fonctions sur modification du compte
             compte_item.update_libelle.connect(self.update_compte_libelle) # Modification du libelle
             compte_item.update_solde.connect(self.update_compte_solde) # Modification du solde
-            compte_item.delete_compte.connect(self.delete_compte) # Suppression du compte
+            compte_item.archive_compte.connect(self.archive_compte) # Suppression du compte
 
             # On ajoute l'item a la liste d'affichage
             self.comptes_widget.add_item(compte_item)
@@ -77,23 +77,24 @@ class CompteControl(object):
         """
         comptes = self.compteSql.select_all()
         for b in comptes:
-            # On ajoute le compte a la liste des comptes
-            self.comptes.append(b)
+            if not(b.est_archive):
+                # On ajoute le compte a la liste des comptes
+                self.comptes.append(b)
 
-            # On cree le widget associe
-            compte_item = CompteListWidgetItem(
-                id=b.id,
-                libelle=b.libelle,
-                solde=b.solde,
-            )
+                # On cree le widget associe
+                compte_item = CompteListWidgetItem(
+                    id=b.id,
+                    libelle=b.libelle,
+                    solde=b.solde,
+                )
 
-            # Link des fonctions de traitement
-            compte_item.update_libelle.connect(self.update_compte_libelle) # Modification du libelle
-            compte_item.update_solde.connect(self.update_compte_solde) # Modification du solde
-            compte_item.delete_compte.connect(self.delete_compte) # Suppression du compte
+                # Link des fonctions de traitement
+                compte_item.update_libelle.connect(self.update_compte_libelle) # Modification du libelle
+                compte_item.update_solde.connect(self.update_compte_solde) # Modification du solde
+                compte_item.archive_compte.connect(self.archive_compte) # Suppression du compte
 
-            # On ajoute l'element a liste d'affichage
-            self.comptes_widget.add_item(compte_item)
+                # On ajoute l'element a liste d'affichage
+                self.comptes_widget.add_item(compte_item)
 
     def update_compte_libelle(self, new_libelle : str, id : int) -> None:
         """
@@ -129,7 +130,7 @@ class CompteControl(object):
         except Exception as e:
             Logger.get_instance().error(f"Impossible de mettre a jour le compte avec l'id : {id}. Erreur complete : {e}")
 
-    def delete_compte(self, id : int) -> None:
+    def archive_compte(self, id : int) -> None:
         """
             Cette fonction est appelle lorsqu'un compte est modifie et fait la sauvegarde en base de donnees en plus de supprimer de la liste
 
@@ -141,9 +142,8 @@ class CompteControl(object):
         try:
             ret = self.comptes.find_compte_from_id(id)
             if(ret is not None):
-                self.comptes.remove(ret["compte"])
-                self.compteSql.delete(ret["compte"])
-                self.comptes_widget.delete_item(ret["index"])
+                ret["compte"].est_archive = True
+                self.compteSql.modify(ret["compte"])
             else:
                 Logger.get_instance().error(f"Compte avec id : {id} non trouve dans la liste pour suppression")
         except Exception as e:

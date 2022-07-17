@@ -80,7 +80,8 @@ class OperationControl(object):
             operation_item.delete_operation.connect(self.delete_operation) # Suppression de l'operation
 
             for c in self.comptes: 
-                operation_item.compte.addItem(c.libelle,c)
+                if not(c.est_archive):
+                    operation_item.compte.addItem(c.libelle,c)
 
             for d in self.budgets:
                 operation_item.budget.addItem(d.libelle,d)
@@ -113,9 +114,10 @@ class OperationControl(object):
 
             # Link des fonctions de traitement
             for c in self.comptes: 
-                operation_item.compte.addItem(c.libelle,c)
-                if c.id == b.compte:
-                    operation_item.compte.setCurrentIndex(operation_item.compte.count()-1)
+                if not(c.est_archive):
+                    operation_item.compte.addItem(c.libelle,c)
+                    if c.id == b.compte:
+                        operation_item.compte.setCurrentIndex(operation_item.compte.count()-1)
 
             operation_item.update_compte.connect(self.update_operation_compte) # Modification du compte
 
@@ -163,6 +165,7 @@ class OperationControl(object):
             if(ret is not None):
                 ret["operation"].solde = new_solde
                 self.operationSql.modify(ret["operation"])
+                
             else:
                 Logger.get_instance().error(f"Operation avec id : {id} non trouve dans la liste pour modification montant")
         except Exception as e:
